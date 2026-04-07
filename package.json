@@ -3,11 +3,14 @@
   "version": "1.0.0",
   "description": "A tool for creating .INF and index.theme custom cursor installation and setup files for Windows and Linux.",
   "main": ".eleventy.js",
-    "scripts": {
+  "scripts": {
     "go-list": "npx @11ty/eleventy --serve",
     "go": "npx @11ty/eleventy --serve",
     "build": "npx @11ty/eleventy"
   },
   "author": "Salty.FYI",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@11ty/eleventy": "^3.1.5"
+  }
 }

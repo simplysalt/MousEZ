@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mouse Wizard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/shortcuts.css" />
+</head>
+<body>
+    <a class="header no-select" href="https://simplysalt.dev"><img class="pixelart" src="assets/siteheader.png"></a>
+    <div id="drop-zone-overlay">Drop files or folders anywhere</div>
+    
+    <div class="container controls">
+        <label>Theme Name: <input type="text" id="theme-name" placeholder="Untitled" pattern="^\S+$"></label>
+        <span class="hint-text">Drag items or handles to copy/move between slots.</span>
+        <button id="hover-curs-toggle" onclick="toggleHoverCurs()">Click! <span id="hover-curs-state"></span></button>
+    </div>
+    
+    <div class="container main-layout">
+        <div class="grid" id="cursor-grid"></div>
+        <div class="tray" id="unassigned-tray">
+            <h3 style="margin-top: 0;">Unassigned</h3>
+            <div id="tray-content"></div>
+        </div>
+    </div>
+
+    <div class="footer"></div>
+
+<script defer src="/js/script.js"></script>
+</body>
+</html>

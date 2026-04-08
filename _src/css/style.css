@@ -4,7 +4,7 @@
             --text-subtle: #c0c2d0;
             --border: #334a;
             --accent: #808796;
-            --foreground-color: #565a65;
+            --box-color: #565a65;
         }
 
         body {
@@ -18,22 +18,31 @@
             overflow-x: hidden;
         }
 
+        banner {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            background-color: #fff1;
+            justify-content: center;
+        }
+
         a.header {
+            --hov-ease: cubic-bezier(.52,0,0,1.13) .3s;
             width: fit-content;
-            transition: transform ease .2s;
-            margin-inline: auto;
+            transition: transform var(--hov-ease), padding-inline var(--hov-ease);
+            background: red;
             &:hover {
-                transform: scale(1.02);
+                transition: transform ease .2s, padding-inline ease .2s;
+                transform: scale(1.02) rotate(1deg);
+                padding-inline: 1rem;
             }
             img {
-                height: 70px;
-                aspect-ratio: auto;
-                max-width: 90vw;
+                width: 30vw;
             }
         }
 
         .container {
-            background: --;
+            background: var(--box-color);
         }
 
         .controls {
@@ -41,7 +50,6 @@
             gap: 10px;
             flex-wrap: wrap;
             align-items: center;
-            background: var(--slot-bg);
             padding: 15px;
             border: 1px solid var(--border);
         }
@@ -68,8 +76,8 @@
         }
 
         .slot {
-            background: var(--slot-bg);
             border: 2px dashed var(--border);
+            background: var(--box-color);
             padding: 10px;
             min-height: 120px;
             display: flex;
@@ -77,6 +85,23 @@
             align-items: center;
             justify-content: center;
             text-align: center;
+        }
+
+        .slot.loading {
+            animation: slots-loading ease 1s infinite;
+        }
+        @keyframes slots-loading {
+            from {filter: brightness(1)}
+            50% {filter: brightness(1.04)}
+            to {filter: brightness (1)}
+
+        }
+
+        #tray-content{
+            display: flex;
+            flex-direction: column;
+        } .slot {
+
         }
 
         .slot.drag-over {
@@ -96,10 +121,12 @@
         }
 
         .tray {
-            background: var(--slot-bg);
             border: 1px solid var(--border);
             padding: 10px;
-            min-height: 2em;
+        }
+
+        #unassigned-tray {
+            height: fit-content;
         }
 
         .cursor-item {

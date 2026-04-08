@@ -21,35 +21,45 @@ const state = {
     unassigned: []
 };
 
+function clearContents(...elements) {
+    for (const element of elements)
+    element.innerHTML = ``;
+}
+
 function render() {
-    const cursorGrid = document.getElementById(`cursor-grid`);
-    cursorGrid.innerHTML = ``;
+    const grid = document.getElementById(`cursor-grid`);
+    const tray = document.getElementById(`tray-content`);
+    clearContents(grid, tray);
 
     cursors.forEach(cursor => {
-        const itemSlot = document.createElement(`div`);
-        itemSlot.classList.add(`slot`);
+        const slot = document.createElement(`div`);
+                slot.classList.add(`slot`);
+                slto.setAttribute('data-slot-id', cursor.id);
 
         if (state.assignments[cursor.id]) {
             let file = state.assignments[cursor.id];
-            itemSlot.innerHTML = `
+            slot.innerHTML = `
                 <div class="cursor-label">${cursor.label}</div>
                 <div class="file-name">${file.name}</div>
                 <button onclick="unassign('${cursor.id}')">Unassign</button>
             `;
             console.log(`${cursor.label} is assigned to: ${file.name}`)
         } else {
-            itemSlot.innerHTML = `
+            slot.innerHTML = `
                 <div class="cursor-label">${cursor.label}</div>
-                <div class="drag-drop">Drop here</div>
+                <div class="drag-drop">Drag/Drop here</div>
             `;
             console.log(`${cursor.id} is empty.`)
         }
-    cursorGrid.appendChild(itemSlot);
+        grid.appendChild(slot);
 
-    itemSlot.addEventListener('dragover', i =>
+        // ADD SORTABLE.JS HERE
+        // TO "DEPRECATE" EVENT LISTENERS
+
+    slot.addEventListener('dragover', i =>
         i.preventDefault()); // Permit dropping
 
-    itemSlot.addEventListener('drop', i => {
+    slot.addEventListener('drop', i => {
         i.preventDefault();
         drop(i, cursor.id);});
     });
@@ -84,14 +94,16 @@ function drop(event, targetId) {
         if (state.assignments[targetId]) {
             unassign(targetId); 
         }
-        
+
         // assign the new file to the target slot
         state.assignments[targetId] = file;
         
-        // if file was in Unassigned list, remove it from that list 
-        //
+        // if file was in Unassigned list, remove it from that list
+        state.unassigned = state.unassigned.filter(f => f.name !== file.name);
+
+
         render();
     }    
 }
 
-render();
+render()

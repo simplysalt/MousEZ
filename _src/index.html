@@ -9,19 +9,32 @@
     <link rel="stylesheet" href="/css/shortcuts.css" />
 </head>
 <body>
-    <a class="header no-select" href="https://simplysalt.dev"><img class="pixelart" src="assets/siteheader.png"></a>
+    <banner>
+        <a class="header no-select" href="https://simplysalt.dev">
+            {% include "siteheader.svg.html" %}
+        </a>
+        <button id="faq-btn">?</button>
+    </banner>
     <div id="drop-zone-overlay">Drop files or folders anywhere</div>
     
-    <div class="container controls">
+    <div class="controls container">
         <label>Theme Name: <input type="text" id="theme-name" placeholder="Untitled" pattern="^\S+$"></label>
         <span class="hint-text">Drag items or handles to copy/move between slots.</span>
         <button id="hover-curs-toggle" onclick="toggleHoverCurs()">Click! <span id="hover-curs-state"></span></button>
     </div>
     
-    <div class="container main-layout">
-        <div class="grid" id="cursor-grid"></div>
-        <div class="tray" id="unassigned-tray">
-            <h3 style="margin-top: 0;">Unassigned</h3>
+    <div class="main-layout">
+        <div class="grid" id="cursor-grid">
+            {% for i in (1..10) %}
+            <div class="slot loading">
+                <div class="cursor-label"></div>
+                <div class="drag-drop"></div>
+            </div> 
+            {% endfor %}
+
+        </div>
+        <div class="tray container" id="unassigned-tray">
+            <h3 style="margin-block: .1em; margin-inline: .1em;">Unassigned</h3>
             <div id="tray-content"></div>
         </div>
     </div>

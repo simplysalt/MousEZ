@@ -34,7 +34,7 @@ function render() {
     cursors.forEach(cursor => {
         const slot = document.createElement(`div`);
                 slot.classList.add(`slot`);
-                slto.setAttribute('data-slot-id', cursor.id);
+                slot.setAttribute('data-slot-id', cursor.id);
 
         if (state.assignments[cursor.id]) {
             let file = state.assignments[cursor.id];
@@ -104,6 +104,6 @@ function drop(event, targetId) {
 
         render();
     }    
-}
+};
 
 render()

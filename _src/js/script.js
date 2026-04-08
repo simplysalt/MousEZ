@@ -106,4 +106,4 @@ function drop(event, targetId) {
     }    
 };
 
-render()
+// render()

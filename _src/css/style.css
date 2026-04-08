@@ -30,14 +30,18 @@
             --hov-ease: cubic-bezier(.52,0,0,1.13) .3s;
             width: fit-content;
             transition: transform var(--hov-ease), padding-inline var(--hov-ease);
-            background: red;
             &:hover {
                 transition: transform ease .2s, padding-inline ease .2s;
-                transform: scale(1.02) rotate(1deg);
-                padding-inline: 1rem;
+                transform: scale(1.05) rotate(.2deg);
+                padding-inline: .2rem;
             }
-            img {
+            img, svg {
                 width: 30vw;
+                &.crisp {
+                    image-rendering: crisp-edges;
+                    background: transparent;
+                    outline: 10px solid transparent;
+                }
             }
         }
 
@@ -79,20 +83,22 @@
             border: 2px dashed var(--border);
             background: var(--box-color);
             padding: 10px;
-            min-height: 120px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
+
+            #cursor-grid & {min-height: 120px;}
+            #tray-content & {}
         }
 
         .slot.loading {
-            animation: slots-loading ease 1s infinite;
+            animation: slots-loading ease .8s infinite;
         }
         @keyframes slots-loading {
             from {filter: brightness(1)}
-            50% {filter: brightness(1.04)}
+            50% {filter: brightness(1.06)}
             to {filter: brightness (1)}
 
         }

@@ -11,7 +11,8 @@
 <body>
     <banner>
         <a class="header no-select" href="https://simplysalt.dev">
-            {% include "siteheader.svg.html" %}
+            <!-- {% include "siteheader.svg.html" %} -->
+            <img src="/assets/siteheader-8x.png" class="crisp">
         </a>
         <button id="faq-btn">?</button>
     </banner>
@@ -20,7 +21,8 @@
     <div class="controls container">
         <label>Theme Name: <input type="text" id="theme-name" placeholder="Untitled" pattern="^\S+$"></label>
         <span class="hint-text">Drag items or handles to copy/move between slots.</span>
-        <button id="hover-curs-toggle" onclick="toggleHoverCurs()">Click! <span id="hover-curs-state"></span></button>
+        <button onclick="toggleHoverCurs()">Click! <span id="hover-curs-state"></span></button>
+        <button onclick="render()"></button>
     </div>
     
     <div class="main-layout">
@@ -34,8 +36,15 @@
 
         </div>
         <div class="tray container" id="unassigned-tray">
-            <h3 style="margin-block: .1em; margin-inline: .1em;">Unassigned</h3>
-            <div id="tray-content"></div>
+            <h3 style="margin-block: .1em; margin-inline: .1em;">Cursors</h3>
+            <div id="tray-content">
+                {% for i in (1..10) %}
+                <div class="slot loading">
+                    <div class="cursor-label" style="color: #fff0">{{ forloop.index }}</div>
+                    <div class="drag-drop"></div>
+                </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
 

@@ -1,2 +1,1 @@
-# easycursors
-
+# MousEZ ("Mouse-E-Z")

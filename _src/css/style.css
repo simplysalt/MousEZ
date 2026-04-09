@@ -18,7 +18,28 @@
             overflow-x: hidden;
         }
 
-        banner {
+        .hov-rotate {
+            display: inline-block;
+            transition: transform .3s ease;
+            line-height: 1;
+            width: 1em;
+            height: 1em;
+            text-align: center;
+            /* transform: rotate(90deg); */
+            button:hover &{
+            transform: rotate(130deg);
+        }
+        }
+
+        a, a:visited {
+            color: var(--text);
+            text-decoration: none;
+            &:hover {
+                text-decoration: 2px dashed underline;
+            }
+        }
+
+        banner>div {
             width: 100%;
             display: flex;
             flex-direction: row;
@@ -36,12 +57,17 @@
                 padding-inline: .2rem;
             }
             img, svg {
-                width: 30vw;
-                &.crisp {
-                    image-rendering: crisp-edges;
-                    background: transparent;
-                    outline: 10px solid transparent;
-                }
+                width: 300px;
+                max-width: 70vw;
+            }
+        }
+
+        a.nav-link {
+            padding: 10px;
+            font-weight: bolder;
+            background: var(--accent);
+            div & {
+                
             }
         }
 

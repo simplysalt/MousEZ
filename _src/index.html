@@ -9,28 +9,28 @@
     <link rel="stylesheet" href="/css/shortcuts.css" />
 </head>
 <body>
-    <banner>
+    <banner><div>
         <a class="header no-select" href="https://simplysalt.dev">
-            <!-- {% include "siteheader.svg.html" %} -->
-            <img src="/assets/siteheader-8x.png" class="crisp">
-        </a>
-        <button id="faq-btn">?</button>
+            {% include "siteheader.svg.html" %}
+            <!-- <img src="/assets/siteheader-8x.png" class="crisp"> -->
+        </a></div>
+        <div class="flex">{% for i in (1..3) %}<a class="nav-link" href="/link/{{ forloop.index }}">Button {{ forloop.index }}!</a>{% endfor %}</div>
     </banner>
     <div id="drop-zone-overlay">Drop files or folders anywhere</div>
     
     <div class="controls container">
         <label>Theme Name: <input type="text" id="theme-name" placeholder="Untitled" pattern="^\S+$"></label>
         <span class="hint-text">Drag items or handles to copy/move between slots.</span>
-        <button onclick="toggleHoverCurs()">Click! <span id="hover-curs-state"></span></button>
-        <button onclick="render()"></button>
+        <button id="toggleHoverCurs" onclick="toggleHoverCurs()">Click!</button>
+        <button onclick="render()"><span class="hov-rotate">↻</span></button>
     </div>
     
     <div class="main-layout">
         <div class="grid" id="cursor-grid">
             {% for i in (1..10) %}
             <div class="slot loading">
-                <div class="cursor-label"></div>
-                <div class="drag-drop"></div>
+                <div class="cursor-label">Cursor Label</div>
+                <div class="drag-drop">drag/drop here</div>
             </div> 
             {% endfor %}
 

@@ -78,6 +78,8 @@ function addToTray(file) {
     div._fileReference = file;
 }
 
+// LAST CODED HERE
+
 function unassign(id) {
     const file = state.assignments[id];
     delete state.assignments[id];

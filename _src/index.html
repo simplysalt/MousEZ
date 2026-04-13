@@ -14,41 +14,72 @@
             {% include "siteheader.svg.html" %}
             <!-- <img src="/assets/siteheader-8x.png" class="crisp"> -->
         </a></div>
-        <div class="flex">{% for i in (1..3) %}<a class="nav-link" href="/link/{{ forloop.index }}">Button {{ forloop.index }}!</a>{% endfor %}</div>
-    </banner>
-    <div id="drop-zone-overlay">Drop files or folders anywhere</div>
-    
+        </banner>
+    <div id="drop-zone-overlay">Drop files or folders</div>
+
     <div class="controls container">
-        <label>Theme Name: <input type="text" id="theme-name" placeholder="Untitled" pattern="^\S+$"></label>
-        <span class="hint-text">Drag items or handles to copy/move between slots.</span>
-        <button id="toggleHoverCurs" onclick="toggleHoverCurs()">Click!</button>
-        <button onclick="render()"><span class="hov-rotate">↻</span></button>
+        <label>Theme Name:
+            <input type="text"
+            id="theme-name"
+            placeholder="Untitled"
+            pattern="^\S+$">
+        </label>
+        <label><input type="checkbox"
+            id="preview-cursors-toggle">Preview cursors</label>
+
+        <button onclick="render()">Refresh <span class="hov-rotate">↻</span></button>
     </div>
+
+    {% capture cursor-item %}
+        
+    <div class="cursor-item">
+        <img src="https://picsum.photos/id/56/24">
+            <div class="file-name">Null</div>      
+        </div>
+
+    {% endcapture %}
     
     <div class="main-layout">
-        <div class="grid" id="cursor-grid">
-            {% for i in (1..10) %}
-            <div class="slot loading">
-                <div class="cursor-label">Cursor Label</div>
-                <div class="drag-drop">drag/drop here</div>
-            </div> 
+        <div class="grid"
+        id="cursor-grid"
+        data-preview-cursors="false">
+            {% for cursor in cursors %}
+            <div class="slot container"
+            data-assigned="false"
+            data-cursor-id="{{ cursor.id }}"
+            data-css-cursor="{{ cursor.css }}">
+                <div class="cursor-label">{{ cursor.label }}</div>
+                <div class="drag-drop">Drag/Drop here to assign</div><div class="file-name"></div>
+                    {{ cursor-item }}
+                <button onclick="unassign({{ cursor.id }})"
+                class="unassign-btn">Unassign</button>
+            </div>
             {% endfor %}
 
         </div>
-        <div class="tray container" id="unassigned-tray">
-            <h3 style="margin-block: .1em; margin-inline: .1em;">Cursors</h3>
+
+        <div class="tray container">
+            <h3 style="margin-block: .1em; margin-inline: .1em;">
+            Cursors (Unassigned)
+            </h3>
             <div id="tray-content">
-                {% for i in (1..10) %}
-                <div class="slot loading">
-                    <div class="cursor-label" style="color: #fff0">{{ forloop.index }}</div>
-                    <div class="drag-drop"></div>
-                </div>
+                {% for i in (1..6) %}
+                    {{ cursor-item }}
                 {% endfor %}
+            <p>Drag and drop your cursor files in here!</p>
             </div>
         </div>
     </div>
 
     <div class="footer"></div>
+    <!-- <script>
+        window.addEventListener('beforeunload', (event) => {
+    // Trigger the confirmation dialog.
+    event.preventDefault();
+    // (Chrome requires returnValue to be set.)
+    event.returnValue = '';
+});
+    </script> -->
 
 <script defer src="/js/script.js"></script>
 </body>

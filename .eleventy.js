@@ -15,7 +15,8 @@ eleventyConfig.addPlugin(RenderPlugin, {tagNameFile: "renderFile"}); // Change t
     input: src,
     output: "_public",
     includes: "_includes",
-    layouts: "_layouts"
+    layouts: "_layouts",
+    data: "../_data"
     }}; // Configure Eleventy build and access paths
 
 };

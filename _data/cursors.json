@@ -1,0 +1,92 @@
+[
+{"label": "Main",
+    "id": "pointer",
+    "keys": ["normal", "default", "arrow", "1"],
+    "linux": ["left_ptr", "default", "arrow", "top_left_arrow"],
+    "css": "default"
+},
+{"label": "Link Select",
+    "id": "link",
+    "keys": ["link", "hand", "pointer", "15"],
+    "linux": ["hand", "hand1", "hand2", "pointer"],
+    "css": "pointer"
+},
+{"label": "Help Select",
+    "id": "help",
+    "keys": ["help", "question", "2"],
+    "linux": ["help", "left_ptr_help", "question_arrow"],
+    "css": "help"
+},
+{"label": "Alternate Select",
+    "id": "alt",
+    "keys": ["alternate", "up", "14"],
+    "linux": ["sb_up_arrow"],
+    "css": "cell"
+},
+{"label": "Text Select",
+    "id": "text",
+    "keys": ["text", "beam", "xterm", "6"],
+    "linux": ["xterm", "text", "ibeam"],
+    "css": "text"
+},
+{"label": "Working",
+    "id": "working",
+    "keys": ["work", "progress", "background", "3"],
+    "linux": ["left_ptr_watch", "progress"],
+    "css": "progress"
+},
+{"label": "Busy",
+    "id": "busy",
+    "keys": ["busy", "wait", "watch", "4"],
+    "linux": ["watch", "wait"],
+    "css": "wait"
+},
+{"label": "Precision",
+    "id": "cross",
+    "keys": ["cross", "precision", "5"],
+    "linux": ["cross", "cross_reverse", "diamond_cross", "tcross"],
+    "css": "crosshair"
+},
+{"label": "Handwriting",
+    "id": "handwriting",
+    "keys": ["handwriting", "pencil", "7"],
+    "linux": ["pencil"],
+    "css": "alias"
+},
+{"label": "Unavailable",
+    "id": "unavailable",
+    "keys": ["unavailable", "forbidden", "no", "8"],
+    "linux": ["crossed_circle", "circle"],
+    "css": "not-allowed"
+},
+{"label": "Vertical Resize",
+    "id": "vertical",
+    "keys": ["vert", "ns", "9"],
+    "linux": ["v_double_arrow", "n-resize", "s-resize", "ns-resize", "size_ver", "sb_v_double_arrow"],
+    "css": "ns-resize"
+},
+{"label": "Horizontal Resize",
+    "id": "horizontal",
+    "keys": ["horz", "ew", "10"],
+    "linux": ["h_double_arrow", "e-resize", "w-resize", "ew-resize", "size_hor", "sb_h_double_arrow"],
+    "css": "ew-resize"
+},
+{"label": "Diagonal 1 (NW-SE)",
+    "id": "diag1",
+    "keys": ["dgn1", "nwse", "11"],
+    "linux": ["nwse-resize", "size_fdiag", "bd_double_arrow"],
+    "css": "nwse-resize"
+},
+{"label": "Diagonal 2 (NE-SW)",
+    "id": "diag2",
+    "keys": ["dgn2", "nesw", "12"],
+    "linux": ["nesw-resize", "size_bdiag", "fd_double_arrow"],
+    "css": "nesw-resize"
+},
+{"label": "Move",
+    "id": "move",
+    "keys": ["move", "fleur", "13"],
+    "linux": ["fleur", "all-scroll"],
+    "css": "move"
+}
+]

@@ -103,7 +103,7 @@ input[type="text"] {
 }
 
 body:has(#preview-cursors-toggle:checked) .slot {
-    cursor: attr(data-css-cursor);
+    cursor: attr(data-cursor-css);
 }
 
 /* #cursor-grid {
@@ -197,11 +197,5 @@ button {
     justify-content: center;
     align-items: center;
     z-index: 100;
-    pointer-events: none;
-}
-
-.empty-hint {
-    font-size: 0.7rem;
-    color: #555;
     pointer-events: none;
 }

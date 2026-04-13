@@ -29,42 +29,30 @@
 
         <button onclick="render()">Refresh <span class="hov-rotate">↻</span></button>
     </div>
-
-    {% capture cursor-item %}
-        
-    <div class="cursor-item">
-        <img src="https://picsum.photos/id/56/24">
-            <div class="file-name">Null</div>      
-        </div>
-
-    {% endcapture %}
     
     <div class="main-layout">
         <div class="grid"
         id="cursor-grid"
         data-preview-cursors="false">
             {% for cursor in cursors %}
-            <div class="slot container"
+    <div class="slot container"
+    data-cursor-id="{{ cursor.id }}"
             data-assigned="false"
-            data-cursor-id="{{ cursor.id }}"
-            data-css-cursor="{{ cursor.css }}">
+            data-cursor-css="{{ cursor.css }}">
                 <div class="cursor-label">{{ cursor.label }}</div>
-                <div class="drag-drop">Drag/Drop here to assign</div><div class="file-name"></div>
-                    {{ cursor-item }}
-                <button onclick="unassign({{ cursor.id }})"
+                <div class="drag-drop">Drag/Drop here</div><div class="file-name"></div>
+                <div class="sortable-zone" data-group="cursors"></div>
+                <button onclick="unassign('{{ cursor.id }}')"
                 class="unassign-btn">Unassign</button>
             </div>
             {% endfor %}
-
         </div>
 
         <div class="tray container">
-            <h3 style="margin-block: .1em; margin-inline: .1em;">
-            Cursors (Unassigned)
-            </h3>
-            <div id="tray-content">
+            <h3>Unassigned</h3>
+            <div id="tray-content" class="sortable-zone" data-group="cursors">
                 {% for i in (1..6) %}
-                    {{ cursor-item }}
+                    {% include "cursor-item.html" %}
                 {% endfor %}
             <p>Drag and drop your cursor files in here!</p>
             </div>

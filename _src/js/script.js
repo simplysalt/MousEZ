@@ -1,6 +1,4 @@
-import { Sortable } from "sortablejs";
-
-const cursors = {{ cursors | json }};
+// SortableJS is imported in the index <head>.
 
 const state = {
     assignments: {},
@@ -10,9 +8,8 @@ const state = {
 // unused. will be unecessary with my 11ty technique
 // and with reparenting drag n drop code.
 function clearHTML(...elements) {
-    for (const element of elements)
-    element.innerHTML = ``;
-}
+    elements.forEach(e => (e.innerHTML = ``))
+};
 
 // //
 // const slots = document.getElementsByClassName(`slot`);
@@ -35,21 +32,48 @@ function clearHTML(...elements) {
 
 document.querySelectorAll(`.sortable-zone`).forEach(zone => {
     new Sortable(zone, {
-        group: `cursors`,
-        animation: 0,
+        group: {
+            name: `cursors`,
+            put: (to) => {
+                if (to.el.id === `tray-content`) return true;
+                return to.el.children.length === 0;
+            }
+        },
+        animation: 150,
         ghostClass: `sortable-ghost`,
-        onAdd: (evt) => {
-            const item = evt.item;
-            const target = evt.to.closest(`.slot`);
+        // onAdd: (evt) => {
+        //     const item = evt.item;
+        //     const target = evt.to.closest(`.slot`);
 
+        //     if (target) {
+        //         const cursorID = target.getAttribute(`data-cursor-id`);
+        //         target.setAttribute(`data-assigned`, `true`);
+        //         console.log(`Assigned cursor to ${cursorID}`);
+        //     } else {
+        //         evt.from.closest(`.slot`)?.setAttribute(`data-assigned`, `false`);
+        //     }
+        // }
+        onAdd: (evt) => {
+            const target = evt.to.closest(`.slot`);
+            const source = evt.from.closest(`.slot`);
+
+            // If moved INTO a slot
             if (target) {
-                const cursorID = target.getAttribute(`data-cursor-id`);
                 target.setAttribute(`data-assigned`, `true`);
-                console.log(`Assigned cursor to ${cursorID}`);
-            } else {
-                evt.from.closest(`.slot`)?.setAttribute(`data-assigned`, `false`);
+            }
+
+            // If moved OUT OF a slot (back to tray)
+            if (source && !evt.to.closest('.slot')) {
+                source.setAttribute(`data-assigned`, `false`);
+            }
+        },
+        onRemove: (evt) => {
+            const source = evt.from.closest(`.slot`);
+            if (source) {
+                source.setAttribute(`data-assigned`, `false`);
             }
         }
+
     });
 });
 
@@ -58,8 +82,8 @@ window.addEventListener(`drop`, (e) => {
     const files = e.dataTransfer.files;
 
     if (files.length > 0) {
-        files.forEach(file => {
-            if (file.name.endsWith(`.cur`) || file.name.endsWith('.ani')) {
+        Array.from(files).forEach(file => {
+            if (file.name.endsWith('.cur') || file.name.endsWith('.ani')) {
                 addToTray(file);
             }
         });
@@ -68,57 +92,20 @@ window.addEventListener(`drop`, (e) => {
 
 function addToTray(file) {
     const tray = document.getElementById(`tray-content`);
-    const div = document.createElement(`div`)
+    const div = document.createElement(`div`);
     div.className = `cursor-item`;
+    div.setAttribute(`draggable`, `true`);
+
+    const fileURL = URL.createObjectURL(file);
+    
     div.innerHTML = `
-        <img src="/assets/stupid-cursor.png">
+        <div class="file-icon">
+            <img src="${fileURL}" class="pixelart" alt="${file.name}">
+        </div>
         <div class="file-name">${file.name}</div>
     `;
 
     div._fileReference = file;
+
+    tray.appendChild(div);
 }
-
-// LAST CODED HERE
-
-function unassign(id) {
-    const file = state.assignments[id];
-    delete state.assignments[id];
-    
-    const isDuplicate = Object.values(state.assignments).includes(file);
-    const existingTrayItem = state.unassigned.includes(file);
-    if (!isDuplicate && !existingTrayItem) {
-        state.unassigned.push(file);
-    }
-    render();
-}
-
-function drop(event, targetId) {
-    const files = event.dataTransfer.files; // accept dropped files
-    
-// take the first dropped file
-    if (files.length > 0) {
-        const file = files[0];
-
-    // is the file actually a cursor?
-        if (!file.name.endsWith('.cur') && !file.name.endsWith('.ani')) {
-            console.warn("Cursor files must be a valid file type.");
-            return;
-        }
-        
-        // if target slot is occupied, unassign existing file
-        if (state.assignments[targetId]) {
-            unassign(targetId); 
-        }
-
-        // assign the new file to the target slot
-        state.assignments[targetId] = file;
-        
-        // if file was in Unassigned list, remove it from that list
-        state.unassigned = state.unassigned.filter(f => f.name !== file.name);
-
-
-        render();
-    }    
-};
-
-// render()

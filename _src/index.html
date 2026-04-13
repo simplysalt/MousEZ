@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mouse Wizard</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script>const cursors = {{ cursors | json }};</script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.7/Sortable.min.js"></script>
     <link rel="stylesheet" href="/css/style.css" />
     <link rel="stylesheet" href="/css/shortcuts.css" />
 </head>
@@ -20,15 +22,13 @@
     <div class="controls container">
         <label>Theme Name:
             <input type="text"
-            id="theme-name"
+            id="cursor-theme-name"
             placeholder="Untitled"
             pattern="^\S+$">
         </label>
         <label><input type="checkbox"
             id="preview-cursors-toggle">Preview cursors</label>
-
-        <button onclick="render()">Refresh <span class="hov-rotate">↻</span></button>
-    </div>
+</div>
     
     <div class="main-layout">
         <div class="grid"
@@ -42,19 +42,21 @@
                 <div class="cursor-label">{{ cursor.label }}</div>
                 <div class="drag-drop">Drag/Drop here</div><div class="file-name"></div>
                 <div class="sortable-zone" data-group="cursors"></div>
-                <button onclick="unassign('{{ cursor.id }}')"
-                class="unassign-btn">Unassign</button>
+                <!-- <button onclick="unassign('{{ cursor.id }}')"
+                class="unassign-btn">Unassign</button> -->
             </div>
             {% endfor %}
         </div>
 
         <div class="tray container">
-            <h3>Unassigned</h3>
+            <h3 class="no-select">Unassigned</h3>
             <div id="tray-content" class="sortable-zone" data-group="cursors">
-                {% for i in (1..6) %}
+                {% for i in (1..19) %}
                     {% include "cursor-item.html" %}
                 {% endfor %}
-            <p>Drag and drop your cursor files in here!</p>
+            </div>
+            <div class="cursor-item-placeholder none-select">
+                <p class="drag-drop centered">Drag and drop your cursor files in here!</p>
             </div>
         </div>
     </div>

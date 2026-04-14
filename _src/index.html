@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mouse Wizard</title>
+    <title>MousEZ - Easy Cursor Installer Tool - SALTY.FYI</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script>const cursors = {{ cursors | json }};</script>
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.7/Sortable.min.js"></script>
@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="/css/shortcuts.css" />
 </head>
 <body>
-    <banner><div>
+    <banner class="container"><div>
         <a class="header no-select" href="https://simplysalt.dev">
             {% include "siteheader.svg.html" %}
             <!-- <img src="/assets/siteheader-8x.png" class="crisp"> -->
@@ -29,9 +29,9 @@
         <label><input type="checkbox"
             id="preview-cursors-toggle">Preview cursors</label>
 </div>
-    
-    <div class="main-layout">
-        <div class="grid"
+
+<div class="main-layout">
+    <div class="grid"
         id="cursor-grid"
         data-preview-cursors="false">
             {% for cursor in cursors %}
@@ -48,20 +48,27 @@
             {% endfor %}
         </div>
 
-        <div class="tray container">
-            <h3 class="no-select">Unassigned</h3>
-            <div id="tray-content" class="sortable-zone" data-group="cursors">
-                {% for i in (1..19) %}
-                    {% include "cursor-item.html" %}
-                {% endfor %}
-            </div>
-            <div class="cursor-item-placeholder none-select">
-                <p class="drag-drop centered">Drag and drop your cursor files in here!</p>
-            </div>
+        <div id="main-resize-bar" class="resizer-v"></div>
+
+    <div id="cursor-tray" class="tray container">
+        <h3 class="no-select"
+        style="margin: 10px auto;">Unassigned</h3>
+        <div id="tray-content" class="sortable-zone" data-group="cursors">
+            {% for i in (1..5) %}
+                {% include "cursor-item.html" %}
+            {% endfor %}
+        </div>
+        <div class="cursor-item-placeholder none-select">
+            <p class="drag-drop centered">Drag and drop your cursor files in here!</p>
         </div>
     </div>
+</div>
 
-    <div class="footer"></div>
+    <div class="footer">
+        <p>Built with Eleventy.</p>
+        <p>Published on Cloudflare.</p>
+        <p><a href="https://madeby.salty.fyi">Madeby.Salty.fyi</a></p>
+    </div>
     <!-- <script>
         window.addEventListener('beforeunload', (event) => {
     // Trigger the confirmation dialog.

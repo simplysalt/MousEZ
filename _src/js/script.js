@@ -109,3 +109,29 @@ function addToTray(file) {
 
     tray.appendChild(div);
 }
+
+// _src/js/script.js
+
+const resizer = document.getElementById('main-resize-bar');
+const layout = document.querySelector('.main-layout');
+
+resizer.addEventListener('mousedown', (e) => {
+    e.preventDefault();
+    document.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', stopResizing);
+    document.body.style.cursor = 'col-resize';
+});
+
+function handleMouseMove(e) {
+    // G: this is not a correct offset. it snaps far off to the side of my cursor. why not use dx of initial and current mouse position?
+    const newWidth = window.innerWidth - e.clientX - 45;
+    
+    // G: why not just set the width of .tray and leave this defined as `1fr 10px auto` in css?:
+    document.getElementById(`cursor-tray`).style.width = `${newWidth}px`;
+}
+
+function stopResizing() {
+    document.removeEventListener('mousemove', handleMouseMove);
+    document.removeEventListener('mouseup', stopResizing);
+    document.body.style.cursor = 'default';
+}

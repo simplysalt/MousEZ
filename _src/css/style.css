@@ -27,8 +27,8 @@ body {
     text-align: center;
     /* transform: rotate(90deg); */
     button:hover &{
-    transform: rotate(130deg);
-}
+        transform: rotate(130deg);
+    }
 }
 
 a, a:visited {
@@ -43,7 +43,6 @@ banner>div {
     width: 100%;
     display: flex;
     flex-direction: row;
-    background-color: #fff1;
     justify-content: center;
 }
 
@@ -91,34 +90,72 @@ input[type="text"] {
 
 .main-layout {
     display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 10px;
+    grid-template-columns: 1fr 10px auto;
+    gap: none;
     container: main-layout;
+}
+
+#main-resize-bar {
+    margin-inline: auto;
+    width: 30%;
+    cursor: col-resize;
+    background: var(--border);
+    transition: background 0.2s;
+    z-index: 10;
+    border-radius: 2px;
+}
+
+#main-resize-bar:hover, #main-resize-bar:active {
+    background: var(--accent);
+    width: 60%;
 }
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    /* the goal is to have a grid with repeating, roughly square-ish rectangle `.slot`s */
     gap: 10px;
 }
 
-/* #cursor-grid {
-        .slot {cursor: default;}
-    &[data-preview-cursors="true"].slot {
-        cursor: attr(css-pointer);
-    }
-} */
+.tray {
+    --block-gap: 10px;
 
-.slot {
-    min-height: 120px;
     padding: 10px;
     display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
+    flex-direction: column;
+
+    min-width: 100px;
+    width: 20vw;
+
+    height: fit-content;
+    position: sticky;
+    top: var(--block-gap);
+    max-height: calc(100cqh - (var(--block-gap) * 4.8));
+
+    .cursor-item-placeholder {
+        text-wrap: balance;
+    }
+
+    &:has(.cursor-item) {
+        .cursor-item-placeholder {display: none;}
+    }
+}
+
+#tray-content {
+    height: fit-content;
+    overflow-y: scroll;
+}
+
+.slot {
+    max-height: calc-size(width);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 120px;
     
     text-align: center;
-    border: 2px dashed var(--border);
 
     cursor: attr(data-cursor-css);
 
@@ -134,8 +171,8 @@ input[type="text"] {
         .sortable-zone {
             position: relative;
             inset: 0;
-            background: blue;
-            min-width: fit-content;
+            /* background: blue; */
+            width: 80%;
         }
     }
  }
@@ -161,7 +198,6 @@ input[type="text"] {
         flex-direction: column;
         flex: 1 0 auto;
         
-
         img {
             height: 40px;
         }
@@ -181,35 +217,12 @@ input[type="text"] {
 }
 
 .sortable-ghost {
-    opacity: 0.5;
+    border-color: var(--accent);
 }
 
 .cursor-label {font-weight: bolder; user-select: none;}
 .hint-text {font-size: 0.8rem; color: var(--text-subtle);}
 .drag-drop {font-size: 0.8rem; color: var(--text-subtle); user-select: none;}
-
-.tray {
-    --block-gap: 10px;
-
-    
-
-    border: 1px solid var(--border);
-    padding: 10px;
-    height: fit-content;
-    position: sticky;
-    top: var(--block-gap);
-    max-height: calc(100cqh - (var(--block-gap) * 4.8));
-    overflow-y: scroll;
-    &:has(.cursor-item) {
-        .cursor-item-placeholder {display: none;}
-    }
-}
-
-#tray-content {
-    display: flex;
-    flex-direction: column;
-    height: fit-content;
-}
 
 button {
     background: var(--accent);

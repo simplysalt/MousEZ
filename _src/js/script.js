@@ -1,32 +1,36 @@
 // SortableJS AND InteractJS are imported in the index <head>.
 
 if (!Sortable) {
-    alert(`There's been an issue.
-        A crucial Javascript library, SortableJS, does not seem to be available.`);
+    alert(`There's been an issue.\n`+
+        `Dependency SortableJS couldn't be fetched.`);
 };
 
-if (typeof interact !== 'undefined') {
-    // library is available
-} else {
-    alert(`The InteractJS library seems to be unavailable. This is only minor inconvenience.`);
-};
+// if (split) {
+//     alert(`split!`);
+// }
 
-interact(`#main-resize-bar`)
-  .draggable({
-    origin: 'self',
-    listeners: {
-      move(event) {
-        // const layout = document.querySelector(`.main-layout`);
+// if (typeof interact !== 'undefined') {
+//     // library is available
+// } else {
+//     alert(`InteractJS seems to be unavailable. Minor inconvenience. Carry on.`);
+// }
+
+// interact(`#main-resize-bar`)
+//   .draggable({
+//     origin: 'self',
+//     listeners: {
+//       move(event) {
+//         // const layout = document.querySelector(`.main-layout`);
         
-        // const rect = layout.getBoundingClientRect();
-        // const newWidth = rect.left - event.clientX;
+//         // const rect = layout.getBoundingClientRect();
+//         // const newWidth = rect.left - event.clientX;
         
-        // const minMaxWidth = newWidth - 10;
+//         // const minMaxWidth = newWidth - 10;
         
-        // layout.style.setProperty(`--tray-width`, `${minMaxWidth}px`)
-        }
-    }
-});
+//         // layout.style.setProperty(`--tray-width`, `${minMaxWidth}px`)
+//         }
+//     }
+// });
 const state = {
     assignments: {},
     unassigned: []
@@ -185,3 +189,13 @@ function addToTray(file, OS) {
 //     document.removeEventListener('mouseup', stopResizing);
 //     document.body.style.cursor = 'default';
 // }
+
+Split(['#cursor-grid', '#cursor-tray'], {
+    sizes: [75, 25],
+    minSize: [300, 100],
+    expandToMin: true,
+    gutterSize: 3,
+    direction: 'horizontal',
+    cursor: 'col-resize',
+    gutterAlign: 'end',
+})

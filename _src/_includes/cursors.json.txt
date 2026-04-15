@@ -1,1 +1,1 @@
-<script>const cursors = {{ cursors | json }};</script>
+<script defer>const cursors = {{ cursors | json }};</script>

@@ -4,13 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MousEZ - Easy Cursor Installer Tool - SALTY.FYI</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    {% include "cursors.json.txt" %}
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.7/Sortable.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/split.js@1.6.5/dist/split.min.js"></script>
+    
+    <!-- <script defer src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script> -->
     <link rel="stylesheet" href="/css/style.css" />
     <link rel="stylesheet" href="/css/shortcuts.css" />
+    {% include "cursors.json.txt" %}
 </head>
 <body>
     <banner class="container">
@@ -52,7 +53,7 @@
             {% endfor %}
         </div>
 
-        <div id="main-resize-bar"></div>
+        <!-- <div id="main-resize-bar"></div> -->
         
         <div id="cursor-tray" class="tray container">
             <h3 class="no-select unassigned-header">Unassigned</h3>
@@ -66,7 +67,6 @@
             </div>
         </div>
     </div>
-
 
     <div class="footer">
         <p>Built with Eleventy.</p>
@@ -82,6 +82,6 @@
 });
     </script> -->
 
-<script defer src="/js/script.js"></script>
+<script src="/js/script.js"></script>
 </body>
 </html>

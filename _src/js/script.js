@@ -11,25 +11,22 @@ if (typeof interact !== 'undefined') {
     alert(`The InteractJS library seems to be unavailable. This is only minor inconvenience.`);
 };
 
-interact('.tray')
-  .resizable({
-    edges: { top: false, left: true, bottom: false, right: false },
+interact(`#main-resize-bar`)
+  .draggable({
+    origin: 'self',
     listeners: {
-      move: function (event) {
-        let { x,} = event.target.dataset
-
-        x = (parseFloat(x) || 0) + event.deltaRect.left
-
-        Object.assign(event.target.style, {
-          width: `${event.rect.width}px`,
-          transform: `translate(${x}px, 0)`
-        })
-
-        Object.assign(event.target.dataset, { x })
-      }
+      move(event) {
+        // const layout = document.querySelector(`.main-layout`);
+        
+        // const rect = layout.getBoundingClientRect();
+        // const newWidth = rect.left - event.clientX;
+        
+        // const minMaxWidth = newWidth - 10;
+        
+        // layout.style.setProperty(`--tray-width`, `${minMaxWidth}px`)
+        }
     }
-  })
-
+});
 const state = {
     assignments: {},
     unassigned: []

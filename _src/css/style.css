@@ -89,46 +89,53 @@ input[type="text"] {
 }
 
 .main-layout {
-    display: grid;
-    flex-direction: row;
+    position: relative;
     width: 100%;
-    container: main-layout;
+    height: 90vh;
+
 }
 
-    .grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-        /* the goal is to have a grid with repeating, roughly square-ish rectangle `.slot`s */
-        gap: var(--grid-gap);
-    }
-
-/* #main-resize-bar {
-    margin-inline: auto;
-    width: 30%;
+#main-resize-bar {
+    position: absolute;
+    width: 5px;
+    height: 100%;
     cursor: col-resize;
     background: var(--border);
     transition: background 0.2s;
-    z-index: 10;
-    border-radius: 2px;
+    border-radius: 5px;
+    right: 400px;
+
+    &:hover, &:active {
+        background: var(--accent);
+    }
 }
-    #main-resize-bar:hover, #main-resize-bar:active {
-    background: var(--accent);
-    width: 60%;
-} */
+
+.grid {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    /* the goal is to have a grid with repeating, roughly square-ish rectangle `.slot`s */
+    gap: var(--grid-gap);
+}
 
 .tray {
+
     --block-gap: 10px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
 
     padding: 10px;
-    display: flex;
     flex-direction: column;
-
-    min-width: 100px;
-    /* width: 20vw; */
+    
+    min-width: min(100px, 10vw);
 
     height: fit-content;
-    position: sticky;
-    top: var(--block-gap);
     max-height: calc(100cqh - (var(--block-gap) * 4.8));
 
     .cursor-drop-hint {
@@ -218,10 +225,6 @@ input[type="text"] {
     
     .cursor-os {
         margin-left: auto;
-        content: "a";
-        ::after {
-            content: "a";
-        }
     }
 
     .slot & {
@@ -230,7 +233,7 @@ input[type="text"] {
         flex: 1 0 auto;
         margin-inline: auto;
         margin-top: 2em;
-        max-width: 80%;
+        max-width: 70%;
         padding: .9em;
 
         .file-name {
@@ -270,13 +273,11 @@ input[type="text"] {
     padding: 8px;
     margin: 5px 0;
     font-size: 0.85rem;
-    display: absolute;
+    display: none;
     align-items: center;
     gap: 5px;
     user-select: none;
-    *& {
-        transform: translateY(30px);
-    }
+    *:has(.cursor-item)
 }
 
 .sortable-ghost {

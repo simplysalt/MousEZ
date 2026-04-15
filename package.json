@@ -4,14 +4,18 @@
   "description": "A tool for creating .INF and index.theme custom cursor installation and setup files for Windows and Linux.",
   "main": ".eleventy.js",
   "scripts": {
-    "go": "rm -rf _public && npx @11ty/eleventy --serve",
-    "justgo": "npx @11ty/eleventy --serve",
-    "build": "rm -r _public && npx @11ty/eleventy"
+    "clean": "rimraf _public",
+    "go": "npx @11ty/eleventy --serve",
+    "go-x": "npm run clean && npm run go",
+    "build": "npm run clean && npx @11ty/eleventy"
   },
   "author": "Salty.FYI",
   "license": "MIT",
   "dependencies": {
-    "@11ty/eleventy": "^3.1.5",
     "sortablejs": "^1.15.7"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.5",
+    "rimraf": "^6.1.3"
   }
 }

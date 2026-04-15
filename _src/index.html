@@ -7,19 +7,23 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     {% include "cursors.json.txt" %}
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.7/Sortable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
+
     <link rel="stylesheet" href="/css/style.css" />
     <link rel="stylesheet" href="/css/shortcuts.css" />
 </head>
 <body>
-    <banner class="container"><div>
+    <banner class="container">
+        <div>
         <a class="header no-select" href="https://simplysalt.dev">
             {% include "siteheader.svg.html" %}
             <!-- <img src="/assets/siteheader-8x.png" class="crisp"> -->
-        </a></div>
+        </a>
+    </div>
         </banner>
     <div id="drop-zone-overlay">Drop files or folders</div>
 
-    <div class="controls container">
+    <!-- <div class="controls container">
         <label>Theme Name:
             <input type="text"
             id="cursor-theme-name"
@@ -28,7 +32,7 @@
         </label>
         <label><input type="checkbox"
             id="preview-cursors-toggle">Preview cursors</label>
-</div>
+</div> -->
 
 <div class="main-layout">
     <div class="grid"
@@ -37,32 +41,29 @@
             {% for cursor in cursors %}
     <div class="slot container"
     data-cursor-id="{{ cursor.id }}"
-    data-assigned="false"
-    data-cursor-css="{{ cursor.css }}">
-    
+    data-cursor-css="{{ cursor.css }}"
+    data-assigned="false">
+
         <div class="cursor-label">{{ cursor.label }}</div>
-        <div class="drag-drop">Drag/Drop here</div><div class="file-name"></div>
+        <div class="drag-drop">Drag/Drop here</div>
         <div class="sortable-zone" data-group="cursors"></div>
-        <!-- <button onclick="unassign('{{ cursor.id }}')"
-        class="unassign-btn">Unassign</button> -->
+
             </div>
             {% endfor %}
         </div>
-
-        <div id="main-resize-bar" class="resizer-v"></div>
-
-    <div id="cursor-tray" class="tray container">
-        <h3 class="no-select unassigned-header">Unassigned</h3>
-        <div id="tray-content" class="sortable-zone" data-group="cursors">
-            {% for i in (1..6) %}
+        
+        <div id="cursor-tray" class="tray container">
+            <h3 class="no-select unassigned-header">Unassigned</h3>
+            <div id="tray-content" class="sortable-zone" data-group="cursors">
+                {% for i in (1..6) %}
                 {% include "z-placeholder-cursor-item.html" %}
-            {% endfor %}
-        </div>
-        <div class="cursor-item-placeholder none-select">
-            <p class="drag-drop centered">Drag and drop your cursor files in here!</p>
+                {% endfor %}
+            </div>
+            <div class="cursor-drop-hint none-select">
+                <p class="drag-drop centered">Drag and drop your cursor files in here!</p>
+            </div>
         </div>
     </div>
-</div>
 
 
     <div class="footer">

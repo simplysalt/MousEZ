@@ -13,6 +13,11 @@
         -moz-user-select: none;
         -webkit-user-select: none;}
 }
+
+.debug {
+    outline: 2px dashed orange;
+}
+
 .pill {font-size: inherit; text-align: center; display: inline-block; padding-block: .2rem; padding-inline: 8px; margin: 0;}
 
 .white {color: #FFF !important;}

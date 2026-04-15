@@ -1,4 +1,34 @@
-// SortableJS is imported in the index <head>.
+// SortableJS AND InteractJS are imported in the index <head>.
+
+if (!Sortable) {
+    alert(`There's been an issue.
+        A crucial Javascript library, SortableJS, does not seem to be available.`);
+};
+
+if (typeof interact !== 'undefined') {
+    // library is available
+} else {
+    alert(`The InteractJS library seems to be unavailable. This is only minor inconvenience.`);
+};
+
+interact('.tray')
+  .resizable({
+    edges: { top: false, left: true, bottom: false, right: false },
+    listeners: {
+      move: function (event) {
+        let { x,} = event.target.dataset
+
+        x = (parseFloat(x) || 0) + event.deltaRect.left
+
+        Object.assign(event.target.style, {
+          width: `${event.rect.width}px`,
+          transform: `translate(${x}px, 0)`
+        })
+
+        Object.assign(event.target.dataset, { x })
+      }
+    }
+  })
 
 const state = {
     assignments: {},
@@ -7,11 +37,7 @@ const state = {
 
 // unused. will be unecessary with my 11ty technique
 // and with reparenting drag n drop code.
-function clearHTML(...elements) {
-    elements.forEach(e => (e.innerHTML = ``))
-};
-
-// //
+//
 // const slots = document.getElementsByClassName(`slot`);
 // slots.forEach(slot => {
 //     slot.addEventListener('dragover', i =>
@@ -39,6 +65,7 @@ document.querySelectorAll(`.sortable-zone`).forEach(zone => {
                 return to.el.children.length === 0;
             }
         },
+        filter: '.filtered',
         animation: 150,
         ghostClass: `sortable-ghost`,
         // onAdd: (evt) => {
@@ -96,12 +123,14 @@ window.addEventListener(`drop`, (e) => {
         Array.from(files).forEach(file => {
             
             const isWindowsFile = extensions.windows.some(ext => file.name.endsWith(ext));
+            const isLinuxFile = extensions.linux.some(ext => file.name.endsWith(ext));
             if (!isWindowsFile && !isLinuxFile) {
-                alert(`${file.name} is not a supported filetype!`);
+                alert(`"${file.name}" is the wrong file type!\n`+
+                    `Must be one of the following:\n`+
+                    `- .CUR \n- .ANI\n- .XCURSOR\n- .CURSOR `);
             }
-            if (isWindowsFile) {
-                // alert(`${file.name} accepted.`);
-                addToTray(file, `windows`);
+            if (isWindowsFile || isLinuxFile) {
+                addToTray(file, isWindowsFile ? 'windows' : 'linux');
             }
 
         });
@@ -114,13 +143,18 @@ function addToTray(file, OS) {
     div.className = `cursor-item`;
     // div.setAttribute(`draggable`, `true`);
     div.setAttribute(`data-operating-system`, `${OS}`)
-    div.setAttribute(`title`, `${OS}`)
+    div.setAttribute(`title`, `${file.name}`)
 
     const fileURL = URL.createObjectURL(file);
     
     div.innerHTML = `
         <div class="file-icon">
-            <img src="${fileURL}" class="pixelart" alt="${file.name}">
+            <img src="${fileURL}"
+            class="pixelart debug"
+            style="
+                "
+            alt="${file.name}"
+            >
         </div>
         <div class="file-name">"${file.name}"</div>
         <div data-operating-system="${OS}" class="cursor-os"></div>
@@ -131,26 +165,26 @@ function addToTray(file, OS) {
     tray.appendChild(div);
 }
 
-const resizer = document.getElementById('main-resize-bar');
-const layout = document.querySelector('.main-layout');
+// const resizer = document.getElementById('main-resize-bar');
+// const layout = document.querySelector('.main-layout');
 
-resizer.addEventListener('mousedown', (e) => {
-    e.preventDefault();
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', stopResizing);
-    document.body.style.cursor = 'col-resize';
-});
+// resizer.addEventListener('mousedown', (e) => {
+//     e.preventDefault();
+//     document.addEventListener('mousemove', handleMouseMove);
+//     document.addEventListener('mouseup', stopResizing);
+//     document.body.style.cursor = 'col-resize';
+// });
 
-function handleMouseMove(e) {
-    // G: this is not a correct offset. it snaps far off to the side of my cursor. why not use dx of initial and current mouse position?
-    const newWidth = window.innerWidth - e.clientX - 45;
+// function handleMouseMove(e) {
+//     // G: this is not a correct offset. it snaps far off to the side of my cursor. why not use dx of initial and current mouse position?
+//     const newWidth = window.innerWidth - e.clientX - 45;
     
-    // G: why not just set the width of .tray and leave this defined as `1fr 10px auto` in css?:
-    document.getElementById(`cursor-tray`).style.width = `${newWidth}px`;
-}
+//     // G: why not just set the width of .tray and leave this defined as `1fr 10px auto` in css?:
+//     document.getElementById(`cursor-tray`).style.width = `${newWidth}px`;
+// }
 
-function stopResizing() {
-    document.removeEventListener('mousemove', handleMouseMove);
-    document.removeEventListener('mouseup', stopResizing);
-    document.body.style.cursor = 'default';
-}
+// function stopResizing() {
+//     document.removeEventListener('mousemove', handleMouseMove);
+//     document.removeEventListener('mouseup', stopResizing);
+//     document.body.style.cursor = 'default';
+// }

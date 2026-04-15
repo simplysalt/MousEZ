@@ -77,24 +77,44 @@ document.querySelectorAll(`.sortable-zone`).forEach(zone => {
     });
 });
 
+const extensions = {
+    windows: [`.cur`, `.ani`],
+    linux: [`.xcursor`, `.cursor`]
+};
+
+// Allow items to be dropped in while being dragged over the page.
+// This feels so unnecesarry but it literally does not work otherwise. 
+window.addEventListener(`dragover`, (e) => {
+    e.preventDefault();
+})
+
 window.addEventListener(`drop`, (e) => {
     e.preventDefault();
     const files = e.dataTransfer.files;
 
     if (files.length > 0) {
         Array.from(files).forEach(file => {
-            if (file.name.endsWith('.cur') || file.name.endsWith('.ani')) {
-                addToTray(file);
+            
+            const isWindowsFile = extensions.windows.some(ext => file.name.endsWith(ext));
+            if (!isWindowsFile && !isLinuxFile) {
+                alert(`${file.name} is not a supported filetype!`);
             }
+            if (isWindowsFile) {
+                // alert(`${file.name} accepted.`);
+                addToTray(file, `windows`);
+            }
+
         });
     }
 });
 
-function addToTray(file) {
+function addToTray(file, OS) {
     const tray = document.getElementById(`tray-content`);
     const div = document.createElement(`div`);
     div.className = `cursor-item`;
-    div.setAttribute(`draggable`, `true`);
+    // div.setAttribute(`draggable`, `true`);
+    div.setAttribute(`data-operating-system`, `${OS}`)
+    div.setAttribute(`title`, `${OS}`)
 
     const fileURL = URL.createObjectURL(file);
     
@@ -102,15 +122,14 @@ function addToTray(file) {
         <div class="file-icon">
             <img src="${fileURL}" class="pixelart" alt="${file.name}">
         </div>
-        <div class="file-name">${file.name}</div>
-    `;
+        <div class="file-name">"${file.name}"</div>
+        <div data-operating-system="${OS}" class="cursor-os"></div>
+        `;
 
     div._fileReference = file;
 
     tray.appendChild(div);
 }
-
-// _src/js/script.js
 
 const resizer = document.getElementById('main-resize-bar');
 const layout = document.querySelector('.main-layout');

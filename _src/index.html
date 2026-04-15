@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MousEZ - Easy Cursor Installer Tool - SALTY.FYI</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <script>const cursors = {{ cursors | json }};</script>
+    {% include "cursors.json.txt" %}
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.7/Sortable.min.js"></script>
     <link rel="stylesheet" href="/css/style.css" />
     <link rel="stylesheet" href="/css/shortcuts.css" />
@@ -37,13 +37,14 @@
             {% for cursor in cursors %}
     <div class="slot container"
     data-cursor-id="{{ cursor.id }}"
-            data-assigned="false"
-            data-cursor-css="{{ cursor.css }}">
-                <div class="cursor-label">{{ cursor.label }}</div>
-                <div class="drag-drop">Drag/Drop here</div><div class="file-name"></div>
-                <div class="sortable-zone" data-group="cursors"></div>
-                <!-- <button onclick="unassign('{{ cursor.id }}')"
-                class="unassign-btn">Unassign</button> -->
+    data-assigned="false"
+    data-cursor-css="{{ cursor.css }}">
+    
+        <div class="cursor-label">{{ cursor.label }}</div>
+        <div class="drag-drop">Drag/Drop here</div><div class="file-name"></div>
+        <div class="sortable-zone" data-group="cursors"></div>
+        <!-- <button onclick="unassign('{{ cursor.id }}')"
+        class="unassign-btn">Unassign</button> -->
             </div>
             {% endfor %}
         </div>
@@ -51,11 +52,10 @@
         <div id="main-resize-bar" class="resizer-v"></div>
 
     <div id="cursor-tray" class="tray container">
-        <h3 class="no-select"
-        style="margin: 10px auto;">Unassigned</h3>
+        <h3 class="no-select unassigned-header">Unassigned</h3>
         <div id="tray-content" class="sortable-zone" data-group="cursors">
-            {% for i in (1..5) %}
-                {% include "cursor-item.html" %}
+            {% for i in (1..6) %}
+                {% include "z-placeholder-cursor-item.html" %}
             {% endfor %}
         </div>
         <div class="cursor-item-placeholder none-select">
@@ -63,6 +63,7 @@
         </div>
     </div>
 </div>
+
 
     <div class="footer">
         <p>Built with Eleventy.</p>

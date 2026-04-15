@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    {% include "welcome.html" %}
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MousEZ - Easy Cursor Installer Tool - SALTY.FYI</title>
@@ -44,26 +45,23 @@
     data-cursor-id="{{ cursor.id }}"
     data-cursor-css="{{ cursor.css }}"
     data-assigned="false">
-
-        <div class="cursor-label">{{ cursor.label }}</div>
-        <div class="drag-drop">Drag/Drop here</div>
+        <div class="cursor-label" data-label="{{ cursor.label }}"></div>
+        <div class="drag-drop"></div>
         <div class="sortable-zone" data-group="cursors"></div>
-
-            </div>
+    </div>
             {% endfor %}
-        </div>
+    </div>
 
         <!-- <div id="main-resize-bar"></div> -->
         
         <div id="cursor-tray" class="tray container">
             <h3 class="no-select unassigned-header">Unassigned</h3>
-            <div id="tray-content" class="sortable-zone" data-group="cursors">
+            <div id="tray-content"
+            class="sortable-zone tray-drop-hint"
+            data-group="cursors">
                 {% for i in (1..6) %}
                 {% include "z-placeholder-cursor-item.html" %}
                 {% endfor %}
-            </div>
-            <div class="cursor-drop-hint none-select">
-                <p class="drag-drop centered">Drag and drop your cursor files in here!</p>
             </div>
         </div>
     </div>

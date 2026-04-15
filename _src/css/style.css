@@ -109,6 +109,7 @@ input[type="text"] {
 
 	.gutter-vertical {
 		cursor: col-resize;
+        background: red;
 	}
 	.gutter-horizontal {
         cursor: row-resize;
@@ -142,25 +143,29 @@ input[type="text"] {
 	height: fit-content;
 	max-height: calc(100cqh - (var(--block-gap) * 4.8));
 
-	.cursor-drop-hint {
+	#tray-content > .sortable-zone {
 		display: flex;
 		text-wrap: balance;
 	}
 
     .sortable-zone {
-        position: absolute;
-        inset: 0;
-        min-height: 50px;
+        position: relative;
+        /* width: 100%; */
+        height: 100%;
     }
 
 	&:has(.cursor-item) {
-		.cursor-drop-hint {display: none;}
+		#tray-content > .sortable-zone {display: none;}
 	}
 }
 
 #tray-content {
+    flex-grow: 1;
 	height: fit-content;
 	overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    /* gap: 5px; */
 }
 
 .slot {
@@ -277,7 +282,7 @@ input[type="text"] {
     overflow: hidden;
 }
 
-.cursor-drop-hint {
+#tray-content > .sortable-zone::after {
     background: var(--box-color);
     border: 2px dashed var(--border);
     padding: 8px;
@@ -285,9 +290,15 @@ input[type="text"] {
     font-size: 0.85rem;
     align-items: center;
     gap: 5px;
-    user-select: none;
+
+    content: "Drag and drop your cursor files in here!";
+    text-align: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 2em;
+    color: var(--text-subtle);
     *:has(.cursor-item) {
-        display: none;
+        /*  */
     }
 }
 
@@ -298,9 +309,18 @@ input[type="text"] {
     .file-name, .file-icon {opacity: 0;}
 }
 
-.cursor-label {font-weight: bolder; user-select: none;}
-.hint-text {font-size: 0.8rem; color: var(--text-subtle);}
-.drag-drop {font-size: 0.8rem; color: var(--text-subtle); user-select: none;}
+.cursor-label::after {
+    font-weight: bolder;
+    user-select: none;
+    content: attr(data-label);
+}
+
+.drag-drop::after {
+    /* &has */
+    font-size: 0.8rem;
+    color: var(--text-subtle);
+    content: "Drag/Drop here";
+}
 
 button {
     background: var(--accent);

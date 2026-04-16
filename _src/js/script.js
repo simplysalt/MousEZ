@@ -57,53 +57,92 @@ const state = {
 //         i.preventDefault()); // is this even necessary?
 // });
 
-document.querySelectorAll(`.sortable-zone`).forEach(zone => {
-    new Sortable(zone, {
+new Sortable(document.getElementById(`tray-content`), {
+    group: {
+        name: "cursors",
+        pull: true,
+        put: true,
+    },
+    // i DO want to sort inside of the tray. i don't want the tray to use the swap operation.
+    draggable: ".cursor-item",
+    swap: false,
+    animation: 150,
+    ghostClass: "sortable-ghost",
+});
+
+document.querySelectorAll('.slot').forEach(slot => {
+    new Sortable(slot, {
         group: {
-            name: `cursors`,
-            put: (to) => {
-                if (to.el.id === `tray-content`) return true;
-                return to.el.children.length === 0;
-            }
+            name: 'cursors',
+            put: true // Allows incoming items from Tray or other Slots
         },
-        filter: '.filtered',
+        swap: true, 
+        swapClass: 'sortable-swap-highlight',
+        // DO NOT use draggable: ".cursor-item" here.
+        // It makes empty slots "invisible" to the swap engine.
+        
+        filter: '.cursor-label, .drag-drop',
+        preventOnFilter: true,
         animation: 150,
-        ghostClass: `sortable-ghost`,
-        // onAdd: (evt) => {
-        //     const item = evt.item;
-        //     const target = evt.to.closest(`.slot`);
+        ghostClass: 'sortable-ghost',
 
-        //     if (target) {
-        //         const cursorID = target.getAttribute(`data-cursor-id`);
-        //         target.setAttribute(`data-assigned`, `true`);
-        //         console.log(`Assigned cursor to ${cursorID}`);
-        //     } else {
-        //         evt.from.closest(`.slot`)?.setAttribute(`data-assigned`, `false`);
-        //     }
-        // }
         onAdd: (evt) => {
-            const target = evt.to.closest(`.slot`);
-            const source = evt.from.closest(`.slot`);
-
-            // If moved INTO a slot
-            if (target) {
-                target.setAttribute(`data-assigned`, `true`);
-            }
-
-            // If moved OUT OF a slot (back to tray)
-            if (source && !evt.to.closest('.slot')) {
-                source.setAttribute(`data-assigned`, `false`);
-            }
+            evt.to.setAttribute('data-assigned', 'true');
         },
         onRemove: (evt) => {
-            const source = evt.from.closest(`.slot`);
-            if (source) {
-                source.setAttribute(`data-assigned`, `false`);
-            }
+            evt.from.setAttribute('data-assigned', 'false');
         }
-
     });
 });
+// document.querySelectorAll(`.sortable-zone`).forEach(zone => {
+//     new Sortable(zone, {
+//         group: {
+//             name: `cursors`,
+            
+//             put: true,
+//             // put: (to) => {
+//             //     // Tray always accepts new items
+//             //     if (to.el.id === `tray-content`) return true;
+
+//             //     // Slots only accept if they're "empty".
+//             //     return !to.el.querySelector(`.cursor-item`);
+//             // }
+//         },
+
+//         swap: true,
+//         swapClass: `sortable-swap-highlight`,
+//         draggable: ".cursor-item",
+
+//         animation: 150,
+//         ghostClass: `sortable-ghost`,
+//         filter: '.filtered, .cursor-label, .drag-drop',
+//         preventOnFilter: true,
+//         // onAdd: (evt) => {
+//         //     const item = evt.item;
+//         //     const target = evt.to.closest(`.slot`);
+
+//         //     if (target) {
+//         //         const cursorID = target.getAttribute(`data-cursor-id`);
+//         //         target.setAttribute(`data-assigned`, `true`);
+//         //         console.log(`Assigned cursor to ${cursorID}`);
+//         //     } else {
+//         //         evt.from.closest(`.slot`)?.setAttribute(`data-assigned`, `false`);
+//         //     }
+//         // }
+
+//        onAdd: (evt) => {
+//             if (evt.to.classList.contains('slot')) {
+//                 evt.to.setAttribute('data-assigned', 'true');
+//             }
+//         },
+//         onRemove: (evt) => {
+//             if (evt.from.classList.contains('slot')) {
+//                 evt.from.setAttribute('data-assigned', 'false');
+//             }
+
+//         }
+//     })
+// });
 
 const extensions = {
     windows: [`.cur`, `.ani`],
@@ -190,12 +229,21 @@ function addToTray(file, OS) {
 //     document.body.style.cursor = 'default';
 // }
 
+
+
 Split(['#cursor-grid', '#cursor-tray'], {
     sizes: [75, 25],
-    minSize: [300, 100],
+    ondragstart: function () {
+    document.querySelector(`.gutter`).forEach(e => e.classList.add(`active`))
+},
+    ondragend: function () {
+    document.querySelector(`.gutter`).forEach(e => e.classList.remove(`active`))
+},
+    minSize: [180, 100],
     expandToMin: true,
-    gutterSize: 3,
+    gutterSize: 5,
     direction: 'horizontal',
     cursor: 'col-resize',
     gutterAlign: 'end',
+    snapOffset: 0,
 })

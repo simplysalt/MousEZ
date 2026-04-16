@@ -5,20 +5,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MousEZ - Easy Cursor Installer Tool - SALTY.FYI</title>
-    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.7/Sortable.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/split.js@1.6.5/dist/split.min.js"></script>
-    
-    <!-- <script defer src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script> -->
     <link rel="stylesheet" href="/css/style.css" />
     <link rel="stylesheet" href="/css/shortcuts.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.7/Sortable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/split.js@1.6.5/dist/split.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <!-- <script defer src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script> -->
+    
     {% include "cursors.json.txt" %}
 </head>
 <body>
     <banner class="container">
         <div>
-        <a class="header no-select" href="https://simplysalt.dev">
-            {% include "siteheader.svg.html" %}
+        <a class="header no-select" href="/">
+            {% include "mousEZ.svg.html" %}
             <!-- <img src="/assets/siteheader-8x.png" class="crisp"> -->
         </a>
     </div>
@@ -35,19 +35,21 @@
         <label><input type="checkbox"
             id="preview-cursors-toggle">Preview cursors</label>
 </div> -->
+<div class="container" style="width: fit-content;">Hover over each cursor slot!</div>
 
-<div class="main-layout">
+<div id="main-layout">
     <div class="grid"
         id="cursor-grid"
         data-preview-cursors="false">
             {% for cursor in cursors %}
-    <div class="slot container"
+    <div class="slot sortable-zone container"
     data-cursor-id="{{ cursor.id }}"
     data-cursor-css="{{ cursor.css }}"
+    style="cursor: {{ cursor.css }};"
+    data-group="cursors"
     data-assigned="false">
-        <div class="cursor-label" data-label="{{ cursor.label }}"></div>
-        <div class="drag-drop"></div>
-        <div class="sortable-zone" data-group="cursors"></div>
+        <div class="cursor-label filtered" data-label="{{ cursor.label }}"></div>
+        <div class="drag-drop filtered"></div>
     </div>
             {% endfor %}
     </div>

@@ -84,8 +84,8 @@ input[type="text"] {
     /* splitJS handles this */
     gap: calc(var(--grid-gap)/2);
     border: 2px solid var(--border);
-    /* padding: 2px; */
-    border-radius: 16px;
+    padding: 2px;
+    border-radius: 14px;
     contain: paint;
     box-sizing: border-box;
     
@@ -153,7 +153,7 @@ input[type="text"] {
 }
 
 #tray-content {
-    flex-grow: 1;
+    flex: 1 1 0;
 	height: fit-content;
 	overflow-y: auto;
     display: flex;

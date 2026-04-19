@@ -229,21 +229,19 @@ function addToTray(file, OS) {
 //     document.body.style.cursor = 'default';
 // }
 
-
-
-Split(['#cursor-grid', '#cursor-tray'], {
-    sizes: [75, 25],
-    ondragstart: function () {
-    document.querySelector(`.gutter`).forEach(e => e.classList.add(`active`))
-},
-    ondragend: function () {
-    document.querySelector(`.gutter`).forEach(e => e.classList.remove(`active`))
-},
-    minSize: [180, 100],
-    expandToMin: true,
-    gutterSize: 5,
-    direction: 'horizontal',
-    cursor: 'col-resize',
-    gutterAlign: 'end',
-    snapOffset: 0,
-})
+// Split(['#cursor-grid', '#cursor-tray'], {
+//     sizes: [75, 25],
+//     ondragstart: function () {
+//     document.querySelector(`.gutter`).forEach(e => e.classList.add(`active`))
+// },
+//     ondragend: function () {
+//     document.querySelector(`.gutter`).forEach(e => e.classList.remove(`active`))
+// },
+//     minSize: [180, 100],
+//     expandToMin: true,
+//     gutterSize: 5,
+//     direction: 'horizontal',
+//     cursor: 'col-resize',
+//     gutterAlign: 'end',
+//     snapOffset: 0,
+// })

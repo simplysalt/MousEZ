@@ -1,0 +1,49 @@
+[Version]
+signature="$CHICAGO$"
+
+[DefaultInstall]
+CopyFiles = Scheme.Cur
+AddReg    = Scheme.Reg
+
+[DestinationDirs]
+Scheme.Cur = 10, "%DIR%"
+
+[SourceDisksNames]
+1 = "Cursor Root",,
+
+[SourceDisksFiles]
+"sMain.cur" = 1
+"sMain.cur" = 1
+"sLoading.ani" = 1
+"sLoading.ani" = 1
+"sText.cur" = 1
+"sUnavailable.cur" = 1
+"sMain.cur" = 1
+"sClickThis.cur" = 1
+
+
+[Scheme.Reg]
+HKCU,"Control Panel\Cursors\Schemes","%SCHEMENAME%",0x00000000,"%10%\%DIR%\%pointer%,%10%\%DIR%\%help%,%10%\%DIR%\%work%,%10%\%DIR%\%busy%,,%10%\%DIR%\%text%,,%10%\%DIR%\%unavailable%,,,,,,%10%\%DIR%\%alternate%,%10%\%DIR%\%link%"
+
+[Scheme.Cur]
+"sMain.cur"
+"sMain.cur"
+"sLoading.ani"
+"sLoading.ani"
+"sText.cur"
+"sUnavailable.cur"
+"sMain.cur"
+"sClickThis.cur"
+
+
+[Strings]
+DIR = "Cursors\test"
+SCHEMENAME = "test"
+pointer = "sMain.cur"
+help = "sMain.cur"
+work = "sLoading.ani"
+busy = "sLoading.ani"
+text = "sText.cur"
+unavailable = "sUnavailable.cur"
+alternate = "sMain.cur"
+link = "sClickThis.cur"

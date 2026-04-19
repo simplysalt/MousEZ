@@ -2,6 +2,7 @@
     --bg: #464952;
     --text: #e0e0e0;
     --text-subtle: #c0c2d0;
+    --link: #abccf0;
     --border: #334a;
     --accent: #808796;
     --box-color: #565a65;
@@ -17,33 +18,18 @@ body {
     gap: 20px;
     display: flex;
     flex-direction: column;
-    max-width: min(1600px, calc(100vw - 40px));
+    max-width: min(1200px, calc(100vw - 40px));
 }
 
 .container {
     background: var(--box-color);
     border-radius: 5px;
+    padding: 8px;
 }
 
 a, a:visited {
-    color: var(--text);
-    text-decoration: none;
-    &:hover {
-        text-decoration: 2px dashed underline;
-    }
-}
-
-.hov-rotate {
-    display: inline-block;
-    transition: transform .3s ease;
-    line-height: 1;
-    width: 1em;
-    height: 1em;
-    text-align: center;
-    /* transform: rotate(90deg); */
-    button:hover &{
-        transform: rotate(130deg);
-    }
+    color: var(--link);
+    text-decoration: 2px dashed underline;
 }
 
 banner>div {
@@ -66,6 +52,7 @@ a.header {
         width: 300px;
         max-width: 70vw;
         margin: 10px;
+        object-fit: contain;
     }
 }
 
@@ -90,25 +77,35 @@ input[type="text"] {
     padding: 5px 10px;
 }
 
-.main-layout {
+#main-layout {
     display: flex;
     width: 100%;
     height: fit-content;
     /* splitJS handles this */
     gap: calc(var(--grid-gap)/2);
+    border: 2px solid var(--border);
+    padding: 2px;
+    border-radius: 14px;
+    contain: paint;
+    box-sizing: border-box;
+    
 }
 
 .gutter {
-	background: transparent;
-    border-left: 2px solid var(--border);
-    border-right: 2px solid var(--border);
+    border: 1px solid var(--accent);
+    border-top: none;
+    border-bottom: none;
+    transform: scaleY(.98);
+    cursor: col-resize;
+    box-sizing: border-box;
     
-    &:active {
-		border-color: var(--accent);
+    &:hover, &.active {
+        border-width: 2px;
     }
 
 	.gutter-vertical {
 		cursor: col-resize;
+        background: red;
 	}
 	.gutter-horizontal {
         cursor: row-resize;
@@ -117,9 +114,9 @@ input[type="text"] {
 
 .grid {
     /* splitJS handles this */
-	/* flex: 1 1 0; */
+	flex: 2 unset 0;
 	display: grid;
-	align-content: start;
+    align-content: start;
 	grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
 	/* the goal is to have a grid with repeating, roughly square-ish rectangle `.slot`s */
 	gap: var(--grid-gap);
@@ -129,8 +126,8 @@ input[type="text"] {
 	position: sticky;
 	top: 10px;
     /* Handled by splitJS */
-	/* --min-width: max(300px, 10vw);  */
-	/* flex: 0 0 var(--min-width); */
+	--min-width: min(300px, 20vw); 
+	flex: 1 unset var(--min-width);
 	--block-gap: 10px;
 
 	padding: 10px;
@@ -142,25 +139,26 @@ input[type="text"] {
 	height: fit-content;
 	max-height: calc(100cqh - (var(--block-gap) * 4.8));
 
-	.cursor-drop-hint {
+	.sortable-zone {
 		display: flex;
-		text-wrap: balance;
-	}
-
-    .sortable-zone {
-        position: absolute;
-        inset: 0;
-        min-height: 50px;
+        position: relative;
+        /* background: blue; */
+        /* width: 100%; */
+        height: 100%;
     }
 
 	&:has(.cursor-item) {
-		.cursor-drop-hint {display: none;}
+		#tray-content > .sortable-zone {display: none;}
 	}
 }
 
 #tray-content {
+    flex: 1 1 0;
 	height: fit-content;
-	overflow-y: scroll;
+	overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    /* gap: 5px; */
 }
 
 .slot {
@@ -168,46 +166,36 @@ input[type="text"] {
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	min-height: 120px;
-	max-height: 200px;
-	box-sizing: content-box;
-
-	text-align: center;
+	padding: 10px;
+	min-height: 140px;
 	text-rendering: optimizeSpeed;
 
 	cursor: attr(data-cursor-css); 
-	/* doesn't even work btw */
-
-	position: relative;
+	/* this attr() thing doesn't even work btw */
+	
 	transition: transform ease .2s, background ease .2s;
 
+    .cursor-label {
+        order: -1;
+    }
 
+.cursor-label, .drag-drop {
+    pointer-events: none;
+    user-select: none;
+}
+
+    .cursor-item, .sortable-ghost {
+		order: 10;
+        z-index: 10;
+	}
+	
 	&:has(.sortable-ghost) {
-		background: var(--accent);
+        background: var(--accent);
 		transform: scale(103%);
 		cursor: copy;
 		border: 1.5px white dashed;
-	}
-
-		.sortable-zone {
-			position: absolute;
-			inset: 0;
-			/* z-index: 100; */
-			width: 100%;
-			height: 100%;
-			/* background: blue; */
-		}
-
-    &:has(.cursor-item) {
-        .sortable-zone {position: relative;}
-        .cursor-item {anchor-name: --item;}
-        .cursor-label {
-            position: absolute;
-            bottom: calc(anchor(--item top) + .1em);
-            z-index: 20;
-        }
         .drag-drop {display: none;}
-    }
+	}
  }
 
 .cursor-item {
@@ -216,12 +204,18 @@ input[type="text"] {
     padding: 8px;
     margin: 5px 0;
     font-size: 0.85rem;
-    
+    pointer-events: all;
+
     display: flex;
     align-items: center;
     gap: .5em;
     user-select: none;
     cursor: grab;
+
+    .sortable-swap-highlight {
+    background: rgba(255, 255, 255, 0.15) !important;
+    border: 2px solid var(--link);
+}
     
     &:active {cursor: grabbing; opacity: 0.6;}
     
@@ -251,7 +245,7 @@ input[type="text"] {
             border-top: 2px dashed var(--border);
         }
         
-        img {
+        .file-icon {
             height: 40px;
         }
     }
@@ -259,6 +253,14 @@ input[type="text"] {
         display: none;
     }
 }
+
+
+
+.sortable-zone {
+    background: blue;
+}
+
+
 
 .unassigned-header {
     white-space: nowrap;
@@ -277,18 +279,34 @@ input[type="text"] {
     overflow: hidden;
 }
 
-.cursor-drop-hint {
-    background: var(--box-color);
-    border: 2px dashed var(--border);
+#tray-content::after {
+    content: "Drag and drop your cursor files in here!";
+    display: flex;
     padding: 8px;
+    border: 2px dashed var(--border);
     margin: 5px 0;
     font-size: 0.85rem;
     align-items: center;
     gap: 5px;
-    user-select: none;
-    *:has(.cursor-item) {
-        display: none;
-    }
+
+    text-align: center;
+    text-wrap: balance;
+    justify-content: center;
+    max-width: fit-content;
+    min-height: 2em;
+    color: var(--text-subtle);
+}
+	/* Handle the Hint Visibility */
+#tray-content:has(.cursor-item) {
+    border-color: transparent; /* Disable dashed border when full */
+}
+
+#tray-content:has(.cursor-item)::after {
+    content: none; /* Remove text when full */
+}
+
+.slot:has(.cursor-item) .drag-drop {
+    display: none; /* Hide slot hint when full */
 }
 
 .sortable-ghost {
@@ -298,9 +316,18 @@ input[type="text"] {
     .file-name, .file-icon {opacity: 0;}
 }
 
-.cursor-label {font-weight: bolder; user-select: none;}
-.hint-text {font-size: 0.8rem; color: var(--text-subtle);}
-.drag-drop {font-size: 0.8rem; color: var(--text-subtle); user-select: none;}
+.cursor-label::after {
+    font-weight: bolder;
+    user-select: none;
+    content: attr(data-label);
+}
+
+.drag-drop::after {
+    /* &has */
+    font-size: 0.8rem;
+    color: var(--text-subtle);
+    content: "Drag/Drop here";
+}
 
 button {
     background: var(--accent);
@@ -323,4 +350,8 @@ button {
     align-items: center;
     z-index: 100;
     pointer-events: none;
+}
+
+.footer {
+    min-height: 98vh;
 }

@@ -36,6 +36,10 @@ const state = {
     unassigned: []
 };
 
+cursors.forEach(cursor => {
+    console.log(cursor.id, Date.now());
+})
+
 // unused. will be unecessary with my 11ty technique
 // and with reparenting drag n drop code.
 //
@@ -57,40 +61,66 @@ const state = {
 //         i.preventDefault()); // is this even necessary?
 // });
 
-new Sortable(document.getElementById(`tray-content`), {
+const tray = document.getElementById(`tray-content`);
+const slots = document.querySelectorAll(`.slot`);
+const cursorItem = ".cursor-item"
+const unassignBtn = ".btn-unassign"
+const copyBtn = ".btn-copy-handle"
+
+new Sortable(tray, {
     group: {
         name: "cursors",
-        pull: true,
-        put: true,
+        // pull: true,
+        // put: true,
     },
     // i DO want to sort inside of the tray. i don't want the tray to use the swap operation.
-    draggable: ".cursor-item",
-    swap: false,
+    draggable: cursorItem,
+    // swap: false,
     animation: 150,
     ghostClass: "sortable-ghost",
 });
 
-document.querySelectorAll('.slot').forEach(slot => {
+let isCloning = false;
+document.addEventListener('mousedown', (e) => {
+    isCloning = !!e.target.closest(copyBtn);
+});
+
+slots.forEach(slot => {
     new Sortable(slot, {
         group: {
             name: 'cursors',
-            put: true // Allows incoming items from Tray or other Slots
-        },
-        swap: true, 
+            put: (to) => {if (to.el.querySelector(cursorItem)) return false},
+            pull: () => isCloning? 'clone' : true,
+            swap: true, // G-2 says SWAP: FALSE,
         swapClass: 'sortable-swap-highlight',
-        // DO NOT use draggable: ".cursor-item" here.
-        // It makes empty slots "invisible" to the swap engine.
-        
-        filter: '.cursor-label, .drag-drop',
+        filter: '.cursor-label, .drag-drop, .btn-unassign .filtered',
         preventOnFilter: true,
         animation: 150,
         ghostClass: 'sortable-ghost',
+
+        // onMove: (evt) => {
+        //     const swapping = evt.from.classList.contains(`.slot`);
+        //     console.log(swapping); return true;
+        // },
 
         onAdd: (evt) => {
             evt.to.setAttribute('data-assigned', 'true');
         },
         onRemove: (evt) => {
             evt.from.setAttribute('data-assigned', 'false');
+        },
+        // G-1
+        // onEnd: (evt) => {
+        //     if (evt.swapItem && evt.from.classList.contains(`.slot`)) {
+        //         const tray = document.getElementById(`tray-cotent`);
+        //         tray.appendChild(evt.swapItem);
+
+        //         evt.from.setAttribute('data-assigned', 'false');
+        //     }
+        // end G-1
+        // G-2
+        
+        // end G-2
         }
     });
 });
@@ -151,6 +181,24 @@ const extensions = {
 
 // Allow items to be dropped in while being dragged over the page.
 // This feels so unnecesarry but it literally does not work otherwise. 
+window.addEventListener('click', (e) => {
+    const btn = e.target.closest(unassignBtn);
+    if (!unassignBtn) return;
+    const item = btn.closest(cursorItem);
+    if (item.closest('.slot')) {
+        const isDuplicate = Array.from(tray.children).some(
+            child => child.getAttribute('title') === item.getAttribute('title')
+        );
+    if (isDuplicate) {
+        item.remove();
+    } else {
+        tray.appendChild(item);
+    }
+
+    slot.setAttribute('data-assigned', 'false');
+    }
+})
+
 window.addEventListener(`dragover`, (e) => {
     e.preventDefault();
 })
@@ -177,31 +225,42 @@ window.addEventListener(`drop`, (e) => {
     }
 });
 
+// TODO: fix "undefined" random ID
+const randId = (length = 8) => {
+  Math.random().toString(36).substring(2, 2 + length);
+}
+
 function addToTray(file, OS) {
     const tray = document.getElementById(`tray-content`);
     const div = document.createElement(`div`);
+    const Id = randId(8);
     div.className = `cursor-item`;
     // div.setAttribute(`draggable`, `true`);
-    div.setAttribute(`data-operating-system`, `${OS}`)
-    div.setAttribute(`title`, `${file.name}`)
+    div.setAttribute(`data-operating-system`, `${OS}`);
+    div.setAttribute(`title`, `${file.name}`);
+    div.style.anchorName = `--${Id}`;
+
+    console.log(Id, randId());
 
     const fileURL = URL.createObjectURL(file);
     
     div.innerHTML = `
-        <div class="file-icon">
+        <div class="file-icon pixelart">
             <img src="${fileURL}"
-            class="pixelart debug"
-            style="
-                "
-            alt="${file.name}"
-            >
-        </div>
+            class="debug"
+            alt="${file.name}"></div>
         <div class="file-name">"${file.name}"</div>
         <div data-operating-system="${OS}" class="cursor-os"></div>
+        
+        <div class="slot-actions">
+            <div class="btn-copy-handle">⧉ Drag Copy</div>
+            <div class="btn-unassign"
+            style="anchor-scope: --${Id}; position-anchor: --${Id}; position: absolute;
+            top: anchor(top); right: anchor(right)">✖</div>
+        </div>
         `;
 
     div._fileReference = file;
-
     tray.appendChild(div);
 }
 

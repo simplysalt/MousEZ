@@ -8,10 +8,12 @@
     user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none;
+    pointer-events: none;
     * {
         user-select: none;
         -moz-user-select: none;
-        -webkit-user-select: none;}
+        -webkit-user-select: none;
+        pointer-events: none;}
 }
 
 .debug {

@@ -1,17 +1,40 @@
-> ## Packaged with MousEZ
-> [MousEZ](mousez.simplysalt.dev) (Mouse-E-Z) is a free web tool made to simplify artists' lives by making it easy to create custom cursor installation files for Windows (.INF) and Linux (.THEME), all in one go.
+<details><summary>​MousEZ is made to simplify artists' cursor packaging needs!</summary>
+<!-- empty line REQUIRED for markdown in html -->
 
-> ​[MousEZ](mousez.simplysalt.dev) (Mouse-E-Z) is a free web tool made to simplify artists' custom cursor installation needs :3
-> With this tool, one can easily create custom cursor installation files for Windows (.INF) and Linux (.THEME), all in one go.
+> With this tool, you can easily bundle custom cursors and create the relevant setup files for Windows (`.INF`) **and** Linux (`.THEME`) all in one go!
+</details>
+<hr><br>
 
-# How to use these cursors
-## Windows
-blah blah blah yap yap
-- yah yah yee
-> woaowaowoawooao!!!!
+# How to Use
 
-## Linux
-yah yah wee waa
-1. yippity
-3. yappity [splee!!!](www.exampje.com)
-4. woa
+## File selection 📁
+<u>Drag and Drop</u> your cursor files onto the page.
+You may also use the file picker available in the tray (sidebar).
+> File type(s) must be valid (`.CUR` `.ANI` `.XCURSOR` `.CURSOR`).<br>*MacOS cursors not supported.*
+
+## Drag your files around! ✨
+Now that your files are in the tray, you can drag each individual file over a grid slot and assign it to a cursor.
+> A slot may only contain one file at a time. **However**, you may duplicate a file and use it on as many slots as you need. 
+
+<!-- > ###### [Insert example GIF here] -->
+
+## Config (optional) ⚙
+Choose a name for your bundle! 
+
+<style>
+    * {
+        text-wrap: balance;
+        }
+    blockquote {
+    }
+    summary {
+        /* list-style: roman;
+        display: flex;
+        justify-content: space-between; */
+        font-size: 1.5em;
+        font-weight: bolder;
+        ::after {
+            content: "-";
+        }
+    }
+</style>

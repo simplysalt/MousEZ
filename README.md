@@ -1,9 +1,11 @@
-<details><summary>​MousEZ is made to simplify artists' cursor packaging needs!</summary>
+<details><summary>
+
+## ​MousEZ is made to simplify artists' cursor packaging needs!</summary>
 <!-- empty line REQUIRED for markdown in html -->
 
 > With this tool, you can easily bundle custom cursors and create the relevant setup files for Windows (`.INF`) **and** Linux (`.THEME`) all in one go!
-</details>
-<hr><br>
+<hr></details>
+<br>
 
 # How to Use
 
@@ -31,8 +33,6 @@ Choose a name for your bundle!
         /* list-style: roman;
         display: flex;
         justify-content: space-between; */
-        font-size: 1.5em;
-        font-weight: bolder;
         ::after {
             content: "-";
         }

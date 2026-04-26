@@ -24,17 +24,7 @@ Now that your files are in the tray, you can drag each individual file over a gr
 Choose a name for your bundle! 
 
 <style>
-    * {
-        text-wrap: balance;
-        }
-    blockquote {
-    }
     summary {
-        /* list-style: roman;
-        display: flex;
-        justify-content: space-between; */
-        ::after {
-            content: "-";
-        }
+        list-style: none;
     }
 </style>

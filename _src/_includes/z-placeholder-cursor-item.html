@@ -1,4 +1,12 @@
 <div class="cursor-item">
-       <img class="file-icon pixelart" src="/assets/stupid-cursor.png"></img>
-       <div class="file-name">{{ forloop.index }}. No file is selected for this element.</div>
+  <div class="file-icon pixelart">
+    <img alt="{{ forloop.index }}" src="/assets/test/stupid-cursor.png" />
+  </div>
+  <div class="file-name">"ImaginaryFile{{ forloop.index }}.cur"</div>
+  <div data-operating-system="${OS}" class="cursor-os"></div>
+    
+  <div class="slot-actions">
+    <div class="btn-copy-handle">⧉</div>
+    <div class="btn-unassign filtered">-</div>
+  </div>
 </div>

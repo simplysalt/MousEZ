@@ -1,4 +1,4 @@
-[Version]
+`[Version]
 signature="$CHICAGO$"
 
 [DefaultInstall]
@@ -47,3 +47,4 @@ text = "sText.cur"
 unavailable = "sUnavailable.cur"
 alternate = "sMain.cur"
 link = "sClickThis.cur"
+`

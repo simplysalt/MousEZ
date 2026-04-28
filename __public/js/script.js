@@ -163,12 +163,13 @@ const extensions = {
     linux: [`.xcursor`, `.cursor`]
 };
 
-window.addEventListener('beforeunload', (e) => {
-  if (pageModified === true) {
-    e.preventDefault();
-    e.returnValue = '';
-  }
-});
+// window.addEventListener('beforeunload', (e) => {
+//   if (pageModified === true) {
+//     e.preventDefault();
+//     e.returnValue = '';
+//   }
+// });
+
 // Allow items to be dropped in while being dragged over the page.
 // This feels so unnecesarry but it literally does not work otherwise. 
 window.addEventListener('click', (e) => {

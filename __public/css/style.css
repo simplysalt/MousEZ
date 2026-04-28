@@ -1,11 +1,18 @@
 :root {
-    --bg: #464952;
-    --text: #e0e0e0;
+    --bg: #404050;
+    --box-color: #565a65;
+    --border: rgb(63, 65, 70);
+    --spoiler: ;
+
+    /* --bg: #150413;
+    --box-color: #635c6d;
+    --border: #ffffd1; */
+    
+    --text: #f5f5f5;
+    /* --text: var(--border); */
     --text-subtle: #c0c2d0;
     --link: #abccf0;
-    --border: rgb(63, 63, 76);
     --accent: #808796;
-    --box-color: #565a65;
     --grid-gap: 8px;
     --dangerous: #e33;
 }
@@ -119,7 +126,7 @@ input[type="text"] {
 	}
 } */
 
-.grid {
+.cur-grid {
     /* splitJS handles this */
 	flex: 2 1 0;
 	display: grid;
@@ -159,39 +166,50 @@ input[type="text"] {
 
 /* Hide actions be default */
 .slot-actions {
-  visibility: hidden;
+  z-index: 3;
+  opacity: 0;
   position: absolute;
   top: 0;
   left: 100%;
+  transform: translate(-50%);
   height: 100%;
   gap: 4px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  align-items: center;
   div {
     --size: 40px;
     background: var(--bg);
+    border: var(--accent) 2px solid;
     height: var(--size);
     width: var(--size);
+    /* transform: scalex(.2); */
     font-weight: bolder;
     border-radius: 5px;
     
     display: grid;
     place-items: center;
     font-size: 1.2rem;
-    
-    text-align: center;
+
   }
+  transition: opacity ease-out .2s .1s;
 }
-.slot .cursor-item:hover .slot-actions{
-  visibility: visible;
+
+/* TODO: BEFORE PUSH: add ":hover" to .cursor item */
+.slot .cursor-item .slot-actions{
+  opacity: 1;
+  /* div {
+    transform: scalex(1); 
+    transition: transform ease-out .15s .1s;
+  } */
 }
 .slot-actions div::after {
   visibility: hidden;
   pointer-events: none;
   white-space: nowrap;
-  position: relative;
-  left: 100%;
+  position: absolute;
+  left: calc(100% + 4px);
   background-color: var(--border);
   padding: 4px;
   border-radius: 2px;
@@ -268,18 +286,16 @@ input[type="text"] {
 	min-height: 140px;
 	text-rendering: optimizeSpeed;
 
-	cursor: attr(data-cursor-css); 
-	/* this attr() thing doesn't even work btw */
-	
 	transition: transform ease .2s, background ease .2s;
 
     .cursor-label {
         order: -1;
+        flex: 0 1 auto;
     }
 
     .cursor-item, .sortable-ghost {
 	  order: 10;
-    z-index: 10;
+    /* z-index: 2; */
 	}
 	
 	&:has(.sortable-ghost) {
@@ -310,7 +326,7 @@ input[type="text"] {
   border: 2px solid var(--link);
 }
     
-  &:active {cursor: grabbing; transform: scale(.95);}
+  &:active {cursor: grabbing; transform: scale(.98);}
 
   .file-icon {
       image-rendering: pixelated;
@@ -375,9 +391,7 @@ input[type="text"] {
 
 .sortable-ghost {
     border-color: var(--accent);
-    .drop-hint {
-        display: block;}
-    .file-name, .file-icon {opacity: 0;}
+    * {opacity: 0;}
 }
 
 .cursor-label::before {
@@ -405,8 +419,9 @@ button {
     position: fixed;
     display: flex;
     flex-direction: column;
-    inset: 2%;
-    background: #27ea;
+    inset: 0;
+    /* border-radius: 20px; */
+    background: #223a;
     opacity: 0;
     pointer-events: none;
     justify-content: center;
@@ -414,13 +429,12 @@ button {
     z-index: 100;
     pointer-events: none;
     font-weight: bold;
-    border-radius: 20px;
     transition: opacity ease .2s, backdrop-filter ease .2s;
     >* {
       margin-block: 6px;
     }
     &[visible="true"] {
-      backdrop-filter: blur(10px);
+      backdrop-filter: blur(8px);
       opacity: 1;
     }
 }
@@ -434,7 +448,7 @@ button {
     transition: transform ease .2s;
     &:hover {
         transform: scale(2);
-        background-color: #444;
+        background-color: var(--bg);
     }
 }
 

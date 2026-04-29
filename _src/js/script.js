@@ -1,18 +1,18 @@
 // SortableJS is imported in the HTML <head>.
 
 if (!Sortable) {
-    alert(`Dependency SortableJS couldn't be fetched.\n`+
-        `Perhaps... try again?`);
+  alert(`Dependency SortableJS couldn't be fetched.\n` +
+    `Perhaps... try again?`);
 };
 
 const state = {
-    // Auto-create object keys for every ID in ${cursors}
-    // "acc" is short for accumulator 
-    assignments: cursors.reduce((acc, cursor) => {
-        acc[cursor.id] = null;
-        return acc;
-    }, {}),
-    unassigned: []
+  // Auto-create object keys for every ID in ${cursors}
+  // "acc" is short for accumulator 
+  assignments: cursors.reduce((acc, cursor) => {
+    acc[cursor.id] = null;
+    return acc;
+  }, {}),
+  unassigned: []
 };
 console.log("Init'd with IDs:", Object.keys(state.assignments));
 
@@ -24,48 +24,48 @@ const copyBtn = ".btn-copy-handle"
 let pageModified = false;
 
 function syncState() {
-    slots.forEach(slot => {
-        const slotId = slot.getAttribute(`data-cursor-id`);
-        const item = slot.querySelector(`.cursor-item`);
+  slots.forEach(slot => {
+    const slotId = slot.getAttribute(`data-cursor-id`);
+    const item = slot.querySelector(`.cursor-item`);
 
-        state.assignments[slotId] = item ? {
-            ogFile: item._fileReference,
-            name: item.getAttribute(`title`),
-            os: item.getAttribute(`data-operating-system`),
-        } : null;
-    });
+    state.assignments[slotId] = item ? {
+      ogFile: item._fileReference,
+      name: item.getAttribute(`title`),
+      os: item.getAttribute(`data-operating-system`),
+    } : null;
+  });
 
-    state.unassigned = Array.from(tray.querySelectorAll(`.cursor-item`)).map(item => ({
-        name: item.getAttribute(`title`),
-        fileReference: item._fileReference,
-    }));
-    pageModified = true;
-    console.log(`[EZ-CUR] Assignment state:`, state.assignments, state.unassigned);
+  state.unassigned = Array.from(tray.querySelectorAll(`.cursor-item`)).map(item => ({
+    name: item.getAttribute(`title`),
+    fileReference: item._fileReference,
+  }));
+  pageModified = true;
+  console.log(`[EZ-CUR] Assignment state:`, state.assignments, state.unassigned);
 }
 
 new Sortable(tray, {
-    group: {
-        name: "cursors",
-        // pull: true,
-        // put: true,
-    },
-    onEnd: () => syncState(),
-    // i DO want to sort inside of the tray. i don't want the tray to use the swap operation.
-    draggable: cursorItem,
-    animation: 150,
-    ghostClass: "sortable-ghost",
+  group: {
+    name: "cursors",
+    // pull: true,
+    // put: true,
+  },
+  onEnd: () => syncState(),
+  // i DO want to sort inside of the tray. i don't want the tray to use the swap operation.
+  draggable: cursorItem,
+  animation: 150,
+  ghostClass: "sortable-ghost",
 });
 
 let isCloning = false;
 document.addEventListener('mousedown', (e) => {
-    isCloning = !!e.target.closest(copyBtn);
+  isCloning = !!e.target.closest(copyBtn);
 });
 
 slots.forEach(slot => {
   new Sortable(slot, {
     group: {
       name: 'cursors',
-      put: (to) => {if (to.el.querySelector(cursorItem)) return false},
+      put: (to) => { if (to.el.querySelector(cursorItem)) return false },
       pull: () => isCloning ? 'clone' : true,
     },
     // swap: true,
@@ -81,7 +81,7 @@ slots.forEach(slot => {
     //     console.log(swapping); return true;
     // },
 
-    onAdd:(evt) => {
+    onAdd: (evt) => {
       syncState();
       evt.to.setAttribute('data-assigned', 'true');
       // const item = evt.item;
@@ -97,8 +97,8 @@ slots.forEach(slot => {
       // console.log(`Slot add: New ID ${newAnchor} to item.`);
     },
     onRemove: (evt) => {
-        evt.from.setAttribute('data-assigned', 'false');
-        syncState();
+      evt.from.setAttribute('data-assigned', 'false');
+      syncState();
     },
 
     // none of the other event types (onMove, onUpdate, etc.) work either. i tested a few
@@ -112,7 +112,7 @@ slots.forEach(slot => {
 //     new Sortable(zone, {
 //         group: {
 //             name: `cursors`,
-            
+
 //             put: true,
 //             // put: (to) => {
 //             //     // Tray always accepts new items
@@ -159,8 +159,8 @@ slots.forEach(slot => {
 // });
 
 const extensions = {
-    windows: [`.cur`, `.ani`],
-    linux: [`.xcursor`, `.cursor`]
+  windows: [`.cur`, `.ani`],
+  linux: [`.xcursor`, `.cursor`]
 };
 
 
@@ -186,18 +186,18 @@ window.addEventListener('click', (e) => {
         tray.appendChild(item);
       } else {
         const isDuplicate = Array.from(tray.children).some(
-            child => child._fileReference && child.getAttribute('title') === item.getAttribute('title')
+          child => child._fileReference && child.getAttribute('title') === item.getAttribute('title')
         );
         if (isDuplicate) {
-            item.remove();
+          item.remove();
         } else {
-            tray.appendChild(item);
+          tray.appendChild(item);
         }
       }
-        slot.setAttribute('data-assigned', 'false');
-        syncState();
+      slot.setAttribute('data-assigned', 'false');
+      syncState();
     }
-  } catch(err) {
+  } catch (err) {
     console.error(`Click event error`, err)
   };
 })
@@ -224,48 +224,49 @@ window.addEventListener('dragleave', (e) => {
 });
 
 window.addEventListener(`drop`, (e) => {
-    e.preventDefault();
-    dragCounter = 0;
-    dropZone.setAttribute('visible', `false`);
+  e.preventDefault();
+  dragCounter = 0;
+  dropZone.setAttribute('visible', `false`);
 
-    const files = e.dataTransfer.files;
+  const files = e.dataTransfer.files;
 
-    if (files.length > 0) {
-        Array.from(files).forEach(file => {
-            
-            const isWindowsFile = extensions.windows.some(ext => file.name.endsWith(ext));
-            const isLinuxFile = extensions.linux.some(ext => file.name.endsWith(ext));
-            if (!isWindowsFile && !isLinuxFile) {
-                // alert(`"${file.name}" is the wrong file type!\n`+
-                //     `Must be one of the following:\n`+
-                //     `- .CUR \n- .ANI\n- .XCURSOR\n- .CURSOR `);
-                return;
-            }
-            if (isWindowsFile || isLinuxFile) {
-                addToTray(file, isWindowsFile ? 'windows' : 'linux');
-            }
+  if (files.length > 0) {
+    Array.from(files).forEach(file => {
 
-        });
-    }
+      const isWindowsFile = extensions.windows.some(ext => file.name.endsWith(ext));
+      const isLinuxFile = extensions.linux.some(ext => file.name.endsWith(ext));
+      if (!isWindowsFile && !isLinuxFile) {
+        // alert(`"${file.name}" is the wrong file type!\n`+
+        //     `Must be one of the following:\n`+
+        //     `- .CUR \n- .ANI\n- .XCURSOR\n- .CURSOR `);
+        return;
+      }
+      if (isWindowsFile || isLinuxFile) {
+        addToTray(file, isWindowsFile ? 'windows' : 'linux');
+      }
+
+    });
+  }
 });
 function randId(length) {
-    if (!length) {console.log('Provide a length value.'); return "";}
-    return Math.random().toString(36).substring(2, 2 + length)}
-    
+  if (!length) { console.log('Provide a length value.'); return ""; }
+  return Math.random().toString(36).substring(2, 2 + length)
+}
+
 function addToTray(file, OS) {
-    const tray = document.getElementById(`tray-content`);
-    const div = document.createElement(`div`);
-    const id = randId(8);
-    div.className = `cursor-item`;
-    div.setAttribute(`draggable`, `true`);
-    div.setAttribute(`data-operating-system`, `${OS}`);
-    div.setAttribute(`title`, `${file.name}`);
-    
-    console.log(id);
-    
-    const fileURL = URL.createObjectURL(file);
-    
-    div.innerHTML = `
+  const tray = document.getElementById(`tray-content`);
+  const div = document.createElement(`div`);
+  const id = randId(8);
+  div.className = `cursor-item`;
+  div.setAttribute(`draggable`, `true`);
+  div.setAttribute(`data-operating-system`, `${OS}`);
+  div.setAttribute(`title`, `${file.name}`);
+
+  console.log(id);
+
+  const fileURL = URL.createObjectURL(file);
+
+  div.innerHTML = `
     <div class="file-icon pixelart">
     <img src="${fileURL}" alt="${file.name}" class="debug"></div>
     <div class="file-name">"${file.name}"</div>
@@ -276,8 +277,8 @@ function addToTray(file, OS) {
       <div class="btn-unassign filtered">-</div>
     </div>
     `;
-    
-    div._fileReference = file;
-    tray.appendChild(div);
-    syncState();
+
+  div._fileReference = file;
+  tray.appendChild(div);
+  syncState();
 }

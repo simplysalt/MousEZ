@@ -28,14 +28,22 @@ title: MousEZ
         <!-- <img src="/assets/mous-E-Z.png" class="pixelart"> -->
       </a>
     </div>
+    <!-- <div> 
+      <a href='http://www.freevisitorcounters.com'>Total Visits: --</a>
+      <script defer type='text/javascript' src='https://www.freevisitorcounters.com/auth.php?id=4972973b622b962cf040ff2be471d41ca8f2f8e0'></script>
+      <script defer type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/1541481/t/3"></script>
+    </div>   -->
   </banner>
-  <div id="drop-zone-overlay"><h1>Drop it! :=sspoint:</h1><p>(Drop your files)</p></div>
+  <div id="drop-zone-overlay">
+    <h1>Drop it! :=sspoint:</h1>
+    <p>(Drop your files)</p>
+  </div>
   <div class="container">
     <h2>This tool is VERY much a <b>work in progress!</b> :=sspoint:</h2>
     <h3>Expect <b>lots</b> of things to be broken.</h3>
   </div>
   <div id="main-layout">
-    <div class="grid" id="cursor-grid" data-preview-cursors="false">
+    <div class="cur-grid" id="cursor-grid" data-preview-cursors="false">
 
       {% for cur in cursordata %}
       <div class="slot sortable-zone container" data-cursor-id="{{ cur.id }}" data-group="cursors" data-assigned="false"
@@ -61,28 +69,12 @@ title: MousEZ
     </div>
   </div>
 
-  <div class="footer container">
+  <!-- <div class="footer container">
     <h3>MousEZ depends on the following open-source projects.</h3>
     <a class="block" target="_blank" href="https://github.com/SortableJS/Sortable">SortableJS</a>
     <a class="block" target="_blank" href="https://github.com/Stuk/jszip">JS-Zip</a>
-  </div>
-  <a class="centered" href="https://madeby.salty.fyi">Madeby.Salty.fyi</a>
-  <style>
-    .footer>.credits {
-      text-wrap: balance;
-    }
-
-    .footer>ul {
-      li {
-        list-style-type: none;
-
-        &::before {
-          content: attr(icon);
-          font-weight: bolder;
-        }
-      }
-    }
-  </style>
+  </div> -->
+  <p class="centered">Made by <a href="https://salty.fyi">salty.fyi</a><span>:=sspoint:</span></p>
 
   <!-- <script>
         window.addEventListener('beforeunload', (event) => {

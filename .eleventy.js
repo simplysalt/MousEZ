@@ -44,27 +44,9 @@ eleventyConfig.addTransform("emojis", function(content) {
             })
         }
         return content;
-    })
-    
-    const md = markdownit({
-        html: true,
-        linkify: true,
-        typographer: true,
-    }).use(emoji, {
-        defs: emojiDefs,
-        enabled: Object.keys(emojiDefs)
     });
-    
-    // // This allows me to use something like
-    // // <p>{{ "Woah inline markdown! :ssPoint:" | md }}</p>
-    // // To render markdown slightly more efficiently in html :3
-    //     eleventyConfig.addFilter("md", (content) => {
-    //     const e = content.toLowerCase();
-    //   return md.renderInline(e);
-    // });
 
-    // eleventyConfig.setLibrary("md", md);
-    eleventyConfig.addPlugin(RenderPlugin, {tagNameFile: "renderFile"});
+eleventyConfig.addPlugin(RenderPlugin, {tagNameFile: "renderFile"});
     
     return {
         dir: {

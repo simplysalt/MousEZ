@@ -136,12 +136,10 @@ input[type="text"] {
 } */
 
 .cur-grid {
-  /* splitJS handles this */
   flex: 2 1 0;
   display: grid;
   align-content: start;
   grid-template-columns: repeat(auto-fill, minmax(min(30vw, 180px), 1fr));
-  /* the goal is to have a grid with repeating, roughly square-ish rectangle `.slot`s */
   gap: var(--grid-gap);
 }
 

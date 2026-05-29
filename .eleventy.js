@@ -15,6 +15,8 @@ paths.forEach(path => {
     eleventyConfig.addPassthroughCopy(`./${src}/${path}`);
 });
 
+
+
 const emoji = {
     path: `./${src}/assets/emojis`,
     defs: {}

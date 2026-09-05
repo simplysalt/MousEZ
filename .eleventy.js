@@ -15,56 +15,43 @@ paths.forEach(path => {
     eleventyConfig.addPassthroughCopy(`./${src}/${path}`);
 });
 
-const emojiPath = `./${src}/assets/emojis`;
-const emojiDefs = {};
 
-if (fs.existsSync(emojiPath)) {
-    fs.readdirSync(emojiPath).forEach(file =>{
-    if (file.match(/\.(png|jpg|jpeg|gif|webp|svg)$/i)) {
-    const ogName = path.parse(file).name;
-    const name = ogName.toLowerCase();
-    emojiDefs[name] =`
-    <img class="emote"
-    src="/assets/emojis/${file}"
-    alt="${name}" title="${name}"
-    loading="lazy">
-    `;
-    }
-})
-}
+
+const emoji = {
+    path: `./${src}/assets/emojis`,
+    defs: {}
+};
+
+if (fs.existsSync(emoji.path)) {
+    fs.readdirSync(emoji.path).forEach(file => {
+        if (file.match(/\.(png|jpg|jpeg|gif|webp|svg)$/i)) {
+            const ogName = path.parse(file).name;
+            const name = ogName.toLowerCase();
+            emoji.defs[name] = `
+            <img class="emote"
+            src="/assets/emojis/${file}"
+            alt="${name}" title="${name}"
+            loading="lazy">
+            `;
+        }
+    })
+};
 
 eleventyConfig.addTransform("emojis", function(content) {
     if (this.page.outputPath && this.page.outputPath.endsWith(".html")) {
         return content.replace(/:=([a-zA-Z0-9_-]+):/g, (match, name) => {
             const query = name.toLowerCase();
-            if (emojiDefs[query]) {
-                return emojiDefs[query];
+            if (emoji.defs[query]) {
+                return emoji.defs[query];
             } else {
-                return match;}
-            })
-        }
-        return content;
-    })
-    
-    const md = markdownit({
-        html: true,
-        linkify: true,
-        typographer: true,
-    }).use(emoji, {
-        defs: emojiDefs,
-        enabled: Object.keys(emojiDefs)
-    });
-    
-    // // This allows me to use something like
-    // // <p>{{ "Woah inline markdown! :ssPoint:" | md }}</p>
-    // // To render markdown slightly more efficiently in html :3
-    //     eleventyConfig.addFilter("md", (content) => {
-    //     const e = content.toLowerCase();
-    //   return md.renderInline(e);
-    // });
+                return match;
+            }
+        });
+    }
+    return content;
+});
 
-    // eleventyConfig.setLibrary("md", md);
-    eleventyConfig.addPlugin(RenderPlugin, {tagNameFile: "renderFile"});
+eleventyConfig.addPlugin(RenderPlugin, {tagNameFile: "renderFile"});
     
     return {
         dir: {

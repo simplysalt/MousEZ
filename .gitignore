@@ -1,3 +1,2 @@
-/node_modules/*
-/__public/*
-/__public
+/node_modules/
+/__public/
